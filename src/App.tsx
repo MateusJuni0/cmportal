@@ -1,26 +1,30 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { AppLayout } from "./components/layout/AppLayout";
-import { Hero3D } from "./modules/VisualTrust/Hero3D";
+import { AppLayout } from "@/components/layout/AppLayout";
+import { Hero3D } from "@/modules/VisualTrust/Hero3D";
 
-import { Dashboard } from "./pages/dashboard/DashboardPage";
-import { AgentFactory } from "./pages/agents/factory/AgentFactoryPage";
-import { LiveLogTerminalPage } from "./pages/agents/logs/LogsPage";
-import { CreativeLab } from "./pages/creative-lab/CreativeLabPage";
-import { AuthPage } from "./pages/auth/AuthPage";
+// Core
+import { Dashboard } from "@/pages/dashboard/DashboardPage";
+import { AgentFactory } from "@/pages/agents/factory/AgentFactoryPage";
+import { LiveLogTerminalPage } from "@/pages/agents/logs/LogsPage";
+import { CreativeLab } from "@/pages/creative-lab/CreativeLabPage";
+import { AuthPage } from "@/pages/auth/AuthPage";
 
-import { AgentWarfare } from "./pages/innovation/AgentWarfare";
-import { GrowthEngines } from "./pages/innovation/GrowthEngines";
-import { MarketIntelligence } from "./pages/innovation/MarketIntelligence";
+// Innovation
+import { AgentWarfare } from "@/pages/innovation/AgentWarfare";
+import { GrowthEngines } from "@/pages/innovation/GrowthEngines";
+import { MarketIntelligence } from "@/pages/innovation/MarketIntelligence";
 
-import { AIBoardroom } from "./pages/nexus/AIBoardroom";
-import { OmniscienceGrid } from "./pages/nexus/OmniscienceGrid";
-import { QuantumTreasury } from "./pages/nexus/QuantumTreasury";
+// Nexus
+import { AIBoardroom } from "@/pages/nexus/AIBoardroom";
+import { OmniscienceGrid } from "@/pages/nexus/OmniscienceGrid";
+import { QuantumTreasury } from "@/pages/nexus/QuantumTreasury";
 
-import { VisualSiteEditor } from "./pages/cms/CMSPage";
-import { LPBuilder } from "./pages/lp-builder/LPBuilderPage";
-import { AITraining } from "./pages/ai-training/AITrainingPage";
-import { SceneCustomizer } from "./pages/settings/3d-customizer/ThreeDPage";
-import { GitSyncTool } from "./pages/settings/git-sync/GitSyncPage";
+// Systems
+import { VisualSiteEditor } from "@/pages/cms/CMSPage";
+import { LandingPageBuilder } from "@/pages/lp-builder/LPBuilderPage";
+import { AiTraining } from "@/pages/ai-training/AITrainingPage";
+import { SceneCustomizer } from "@/pages/settings/3d-customizer/ThreeDPage";
+import { GitSyncTool } from "@/pages/settings/git-sync/GitSyncPage";
 
 export default function App() {
   return (
@@ -39,8 +43,8 @@ export default function App() {
         <Route path="/nexus/treasury" element={<AppLayout><QuantumTreasury /></AppLayout>} />
         <Route path="/creative" element={<AppLayout><CreativeLab /></AppLayout>} />
         <Route path="/cms" element={<AppLayout><VisualSiteEditor /></AppLayout>} />
-        <Route path="/lp-builder" element={<AppLayout><LPBuilder /></AppLayout>} />
-        <Route path="/ai-training" element={<AppLayout><AITraining /></AppLayout>} />
+        <Route path="/lp-builder" element={<AppLayout><LandingPageBuilder /></AppLayout>} />
+        <Route path="/ai-training" element={<AppLayout><AiTraining /></AppLayout>} />
         <Route path="/settings/3d-customizer" element={<AppLayout><SceneCustomizer /></AppLayout>} />
         <Route path="/settings/git-sync" element={<AppLayout><GitSyncTool /></AppLayout>} />
         <Route path="*" element={<Navigate to="/" replace />} />
