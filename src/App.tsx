@@ -2,24 +2,20 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Hero3D } from "@/modules/VisualTrust/Hero3D";
 
-// Pages
 import { Dashboard } from "@/pages/dashboard";
 import { AgentFactory } from "@/pages/agents/factory";
 import { LiveLogTerminalPage } from "@/pages/agents/logs/LogsPage";
 import { CreativeLab } from "@/pages/creative-lab";
 import { AuthPage } from "@/pages/auth";
 
-// Innovation
 import { AgentWarfare } from "@/pages/innovation/AgentWarfare";
 import { GrowthEngines } from "@/pages/innovation/GrowthEngines";
 import { MarketIntelligence } from "@/pages/innovation/MarketIntelligence";
 
-// Nexus
 import { AIBoardroom } from "@/pages/nexus/AIBoardroom";
 import { OmniscienceGrid } from "@/pages/nexus/OmniscienceGrid";
 import { QuantumTreasury } from "@/pages/nexus/QuantumTreasury";
 
-// Systems
 import { VisualSiteEditor } from "@/pages/cms";
 import { LPBuilder } from "@/pages/lp-builder";
 import { AITraining } from "@/pages/ai-training";
