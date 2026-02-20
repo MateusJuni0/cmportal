@@ -73,6 +73,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => (
 
 // --- APP ROOT ---
 function App() {
+  console.log('App Mounted V5 - Sovereign Engine');
   // Simples estado de autenticação (futuro: conectar ao Supabase)
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
