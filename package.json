@@ -19,7 +19,11 @@
     "react-dom": "^18.2.0",
     "three": "^0.163.0",
     "lucide-react": "^0.371.0",
-    "zustand": "^4.5.2"
+    "zustand": "^4.5.2",
+    "framer-motion": "^11.0.8",
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^2.2.1",
+    "recharts": "^2.12.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
