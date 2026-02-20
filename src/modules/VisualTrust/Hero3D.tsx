@@ -1,138 +1,102 @@
-import React, { useRef, useLayoutEffect, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { Environment, Float, PresentationControls, useGLTF } from '@react-three/drei';
+import React, { useRef, useLayoutEffect } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Environment, Float } from '@react-three/drei';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, Lock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-gsap.registerPlugin(ScrollTrigger);
+// Modelo da Esfera Wireframe Gigante
+const SphereWireframe = () => {
+  const meshRef = useRef<THREE.Mesh>(null);
 
-// Sub-componente para carregar e animar o modelo 3D
-const CoreModel = () => {
-  const modelRef = useRef<THREE.Group>(null);
-  
-  useLayoutEffect(() => {
-    if (modelRef.current) {
-      // Animação GSAP acionada pelo Scroll
-      gsap.to(modelRef.current.rotation, {
-        y: Math.PI * 2,
-        scrollTrigger: {
-          trigger: "#hero-section",
-          start: "top top",
-          end: "bottom top",
-          scrub: 1, // Suavidade na animação reversa
-        }
-      });
+  useFrame((state) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y += 0.002; // Rotação lenta e constante
+      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.2) * 0.1; // Leve oscilação
     }
-  },[]);
+  });
 
   return (
-    <group ref={modelRef}>
-      <Float speed={2} rotationIntensity={0.5} floatIntensity={2}>
-        {/* Placeholder 3D Luxuoso */}
-        <mesh>
-          <icosahedronGeometry args={[1, 0]} />
-          <meshPhysicalMaterial 
-            color="#00ffc8" 
-            metalness={0.9} 
-            roughness={0.1} 
-            clearcoat={1} 
-            clearcoatRoughness={0.1}
-            wireframe={true}
-            emissive="#00ffc8"
-            emissiveIntensity={0.5}
-          />
-        </mesh>
-      </Float>
-    </group>
+    <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
+      <mesh ref={meshRef} scale={[2.8, 2.8, 2.8]}>
+        <sphereGeometry args={[1, 64, 64]} />
+        <meshBasicMaterial 
+          color="#00f0ff" 
+          wireframe={true} 
+          transparent={true} 
+          opacity={0.3}
+        />
+      </mesh>
+      {/* Esfera interna para dar profundidade */}
+      <mesh scale={[2.78, 2.78, 2.78]}>
+        <sphereGeometry args={[1, 32, 32]} />
+        <meshBasicMaterial 
+          color="#0088ff" 
+          wireframe={true} 
+          transparent={true} 
+          opacity={0.1}
+        />
+      </mesh>
+    </Float>
   );
 };
 
 export const Hero3D: React.FC = () => {
-  const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Login attempt:', email);
-    // Aqui virá a integração com Supabase/Auth
-    // Por enquanto, redireciona direto para o Dashboard
+  const handleEnter = () => {
+    // Animação de entrada poderia ser adicionada aqui
     navigate('/dashboard');
   };
 
   return (
-    <section id="hero-section" className="relative h-screen w-full bg-[#020205] overflow-hidden flex items-center justify-center font-sans">
+    <section className="relative h-screen w-full bg-[#020205] overflow-hidden flex flex-col items-center justify-center font-sans">
       
-      {/* Camada de Fundo Estelar (CSS puro para performance) */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#1a2a44] via-[#020205] to-[#020205] opacity-80 z-0"></div>
+      {/* Fundo Gradiente Sutil */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#0a1a2f] via-[#020205] to-[#020205] opacity-60 z-0"></div>
 
-      {/* Camada 3D (Canvas) - Fundo Interativo */}
-      <div className="absolute inset-0 z-0 opacity-60">
-        <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
-          <Environment preset="city" />
+      {/* Camada 3D (Canvas) */}
+      <div className="absolute inset-0 z-0">
+        <Canvas camera={{ position: [0, 0, 6], fov: 45 }}>
           <ambientLight intensity={0.5} />
-          <directionalLight position={[10, 10, 5]} intensity={1.5} color="#00f0ff" />
-          
-          <PresentationControls 
-            global 
-            config={{ mass: 2, tension: 500 }} 
-            snap={{ mass: 4, tension: 1500 }} 
-            rotation={[0, 0, 0]} 
-            polar={[-Math.PI / 3, Math.PI / 3]} 
-            azimuth={[-Math.PI / 1.4, Math.PI / 2]}>
-              
-            <CoreModel />
-            
-          </PresentationControls>
+          <SphereWireframe />
         </Canvas>
       </div>
 
-      {/* Camada de Interface (Glassmorphism Login) */}
-      <div className="relative z-10 w-full max-w-md px-6">
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl animate-fade-in-up">
-          
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-black text-white tracking-tighter mb-2">
-              CM<span className="text-[#00ffc8]">TEC</span>
-            </h1>
-            <p className="text-xs uppercase tracking-[0.3em] text-gray-400">Sovereign Engine V4</p>
-          </div>
-
-          <form onSubmit={handleLogin} className="space-y-6">
-            <div className="space-y-2">
-              <label htmlFor="email" className="text-[10px] uppercase font-bold text-gray-500 tracking-wider ml-1">
-                Secure Identity
-              </label>
-              <div className="relative group">
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="identidade@empresa.com"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#00ffc8]/50 focus:bg-white/10 transition-all duration-300"
-                  required
-                />
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#00ffc8]/20 to-transparent opacity-0 group-focus-within:opacity-100 pointer-events-none transition-opacity duration-500" />
-              </div>
-            </div>
-
-            <button 
-              type="submit" 
-              className="group w-full bg-gradient-to-r from-[#00ffc8] to-[#008f7a] hover:from-[#00ffc8] hover:to-[#00a896] text-[#020205] font-extrabold uppercase text-xs tracking-widest py-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,255,200,0.4)] hover:-translate-y-1"
-            >
-              <span>Iniciar Protocolo</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
-          </form>
-
-          <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-center gap-2 text-[8px] uppercase tracking-widest text-gray-600">
-            <Lock className="w-3 h-3" />
-            <span>Encryption: Active | Dante OS</span>
-          </div>
-          
+      {/* Interface UI Sobreposta */}
+      <div className="relative z-10 flex flex-col items-center justify-between h-full py-20 pointer-events-none">
+        
+        {/* Header / Título */}
+        <div className="text-center mt-10">
+          <h1 className="text-5xl md:text-6xl font-light text-white tracking-tighter mb-2">
+            CM Tecnologia
+          </h1>
+          <h2 className="text-5xl md:text-6xl font-black text-[#00f0ff] tracking-tight uppercase drop-shadow-[0_0_15px_rgba(0,240,255,0.5)]">
+            Portal
+          </h2>
+          <p className="text-gray-500 text-[10px] tracking-[0.5em] uppercase mt-4">
+            Private Access Joint-Venture
+          </p>
         </div>
+
+        {/* Botão Central (Pointer events reativados) */}
+        <div className="pointer-events-auto mt-8">
+          <button 
+            onClick={handleEnter}
+            className="group relative px-12 py-4 bg-transparent border border-[#00f0ff]/50 text-[#00f0ff] font-bold text-sm tracking-[0.2em] uppercase rounded-full hover:bg-[#00f0ff]/10 hover:border-[#00f0ff] hover:shadow-[0_0_30px_rgba(0,240,255,0.3)] transition-all duration-300 backdrop-blur-sm"
+          >
+            <span className="relative z-10">Initialize Engine</span>
+            <div className="absolute inset-0 rounded-full bg-[#00f0ff]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
+          </button>
+        </div>
+
+        {/* Footer */}
+        <div className="text-center mb-10">
+          <p className="text-gray-600 text-[10px] tracking-[0.3em] uppercase">
+            Security Protocol V3.0
+          </p>
+          <div className="w-16 h-0.5 bg-gray-800 mx-auto mt-4 rounded-full"></div>
+        </div>
+
       </div>
     </section>
   );
