@@ -3,11 +3,11 @@ import { AppLayout } from "./components/layout/AppLayout";
 import { Hero3D } from "./modules/VisualTrust/Hero3D";
 
 // Pages
-import { Dashboard } from "./pages/dashboard";
-import { AgentFactory } from "./pages/agents/factory";
-import { LiveLogTerminalPage } from "./pages/agents/logs";
-import { CreativeLab } from "./pages/creative-lab";
-import { AuthPage } from "./pages/auth";
+import { Dashboard } from "./pages/dashboard/index";
+import { AgentFactory } from "./pages/agents/factory/index";
+import { LiveLogTerminalPage } from "./pages/agents/logs/index";
+import { CreativeLab } from "./pages/creative-lab/index";
+import { AuthPage } from "./pages/auth/index";
 
 // Innovation
 import { AgentWarfare } from "./pages/innovation/AgentWarfare";
@@ -20,11 +20,11 @@ import { OmniscienceGrid } from "./pages/nexus/OmniscienceGrid";
 import { QuantumTreasury } from "./pages/nexus/QuantumTreasury";
 
 // Systems
-import { VisualSiteEditor } from "./pages/cms";
-import { LPBuilder } from "./pages/lp-builder";
-import { AITraining } from "./pages/ai-training";
-import { SceneCustomizer } from "./pages/settings/3d-customizer";
-import { GitSyncTool } from "./pages/settings/git-sync";
+import { VisualSiteEditor } from "./pages/cms/index";
+import { LPBuilder } from "./pages/lp-builder/index";
+import { AITraining } from "./pages/ai-training/index";
+import { SceneCustomizer } from "./pages/settings/3d-customizer/index";
+import { GitSyncTool } from "./pages/settings/git-sync/index";
 
 export default function App() {
   console.log('💎 CMTEC Sovereign OS V5.2 - Total Dashboard Integration 💎');
