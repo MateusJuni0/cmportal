@@ -5,6 +5,9 @@
 :root {
   background-color: #020205; /* Fundo absoluto */
   color: white;
+  --color-neon-blue: #00f3ff;
+  --color-neon-purple: #9d00ff;
+  --color-neon-green: #39ff14;
 }
 
 body {
