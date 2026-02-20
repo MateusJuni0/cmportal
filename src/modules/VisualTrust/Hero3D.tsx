@@ -4,6 +4,7 @@ import { Environment, Float, PresentationControls, useGLTF } from '@react-three/
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Lock } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -50,11 +51,14 @@ const CoreModel = () => {
 
 export const Hero3D: React.FC = () => {
   const [email, setEmail] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Login attempt:', email);
     // Aqui virá a integração com Supabase/Auth
+    // Por enquanto, redireciona direto para o Dashboard
+    navigate('/dashboard');
   };
 
   return (
