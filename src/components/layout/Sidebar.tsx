@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Bot, Home, Settings, Zap, Users } from "lucide-react";
-import { cn } from "@/utils/cn";
+import { cn } from "../../utils/cn";
 import { motion } from "framer-motion";
 
 const menuItems = [
