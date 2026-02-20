@@ -1,30 +1,30 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { AppLayout } from "./components/layout/AppLayout.tsx";
-import { Hero3D } from "./modules/VisualTrust/Hero3D.tsx";
+import { AppLayout } from "@/components/layout/AppLayout";
+import { Hero3D } from "@/modules/VisualTrust/Hero3D";
 
 // Pages
-import { Dashboard } from "./pages/dashboard/index.tsx";
-import { AgentFactory } from "./pages/agents/factory/index.tsx";
-import { LiveLogTerminalPage } from "./pages/agents/logs/LogsPage.tsx";
-import { CreativeLab } from "./pages/creative-lab/index.tsx";
-import { AuthPage } from "./pages/auth/index.tsx";
+import { Dashboard } from "@/pages/dashboard";
+import { AgentFactory } from "@/pages/agents/factory";
+import { LiveLogTerminalPage } from "@/pages/agents/logs/LogsPage";
+import { CreativeLab } from "@/pages/creative-lab";
+import { AuthPage } from "@/pages/auth";
 
 // Innovation
-import { AgentWarfare } from "./pages/innovation/AgentWarfare.tsx";
-import { GrowthEngines } from "./pages/innovation/GrowthEngines.tsx";
-import { MarketIntelligence } from "./pages/innovation/MarketIntelligence.tsx";
+import { AgentWarfare } from "@/pages/innovation/AgentWarfare";
+import { GrowthEngines } from "@/pages/innovation/GrowthEngines";
+import { MarketIntelligence } from "@/pages/innovation/MarketIntelligence";
 
 // Nexus
-import { AIBoardroom } from "./pages/nexus/AIBoardroom.tsx";
-import { OmniscienceGrid } from "./pages/nexus/OmniscienceGrid.tsx";
-import { QuantumTreasury } from "./pages/nexus/QuantumTreasury.tsx";
+import { AIBoardroom } from "@/pages/nexus/AIBoardroom";
+import { OmniscienceGrid } from "@/pages/nexus/OmniscienceGrid";
+import { QuantumTreasury } from "@/pages/nexus/QuantumTreasury";
 
 // Systems
-import { VisualSiteEditor } from "./pages/cms/index.tsx";
-import { LPBuilder } from "./pages/lp-builder/index.tsx";
-import { AITraining } from "./pages/ai-training/index.tsx";
-import { SceneCustomizer } from "./pages/settings/3d-customizer/index.tsx";
-import { GitSyncTool } from "./pages/settings/git-sync/index.tsx";
+import { VisualSiteEditor } from "@/pages/cms";
+import { LPBuilder } from "@/pages/lp-builder";
+import { AITraining } from "@/pages/ai-training";
+import { SceneCustomizer } from "@/pages/settings/3d-customizer";
+import { GitSyncTool } from "@/pages/settings/git-sync";
 
 export default function App() {
   return (
