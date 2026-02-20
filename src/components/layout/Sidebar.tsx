@@ -1,61 +1,71 @@
-import React from 'react';
-import { Home, Users, BarChart2, Box, Settings, LogOut, Terminal, Image as ImageIcon } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from "react-router-dom";
+import { Bot, Home, Settings, Zap, Users } from "lucide-react";
+import { cn } from "@/utils/cn";
+import { motion } from "framer-motion";
 
-const NavItem = ({ to, icon: Icon, label, active }: any) => (
-  <Link to={to} className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group relative overflow-hidden ${
-    active 
-      ? 'bg-gradient-to-r from-[#00ffc8]/10 to-transparent text-[#00ffc8] font-bold border-l-2 border-[#00ffc8]' 
-      : 'text-gray-400 hover:text-white hover:bg-white/5'
-  }`}>
-    <Icon className={`w-5 h-5 ${active ? 'text-[#00ffc8]' : 'text-gray-500 group-hover:text-white'}`} />
-    <span className="text-sm tracking-wide">{label}</span>
-    {active && (
-      <div className="absolute inset-0 bg-[#00ffc8]/5 pointer-events-none animate-pulse" />
-    )}
-  </Link>
-);
+const menuItems = [
+  { name: "Dashboard", path: "/dashboard", icon: Home },
+  { name: "Agentes Autônomos", path: "/agents/factory", icon: Bot },
+  { name: "Leads", path: "/innovation/market", icon: Users },
+  { name: "Nexus", path: "/nexus/omniscience", icon: Zap },
+  { name: "Configurações", path: "/settings/3d-customizer", icon: Settings },
+];
 
-export const Sidebar: React.FC = () => {
+export function Sidebar() {
   const location = useLocation();
-  const path = location.pathname;
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-[#0a0a0c] border-r border-white/5 flex flex-col p-6 z-50">
-      
-      {/* Brand */}
-      <div className="mb-10 pl-2">
-        <h1 className="text-2xl font-black text-white tracking-tighter">
-          CM<span className="text-[#00ffc8]">TEC</span>
-        </h1>
-        <p className="text-[10px] uppercase tracking-[0.3em] text-gray-600 mt-1">Sovereign OS</p>
+    <aside className="w-64 border-r border-[#2A2A2A] bg-[#0A0A0A]/40 backdrop-blur-2xl flex flex-col z-20 shadow-2xl shrink-0">
+      <div className="p-6 flex items-center gap-3">
+        <div className="w-8 h-8 rounded-lg bg-[#1A1A1A] border border-white/10 flex items-center justify-center">
+          <Bot className="w-5 h-5 text-[var(--color-neon-blue)]" />
+        </div>
+        <div>
+          <h1 className="text-sm font-bold tracking-tight text-white">Sovereign Sales</h1>
+          <p className="text-[10px] text-zinc-500 uppercase tracking-widest font-semibold">Engine</p>
+        </div>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 space-y-2">
-        <div className="text-[10px] uppercase font-bold text-gray-600 pl-4 mb-2 mt-6 tracking-widest">
-          Core Modules
-        </div>
-        <NavItem to="/dashboard" icon={Home} label="Nero Command" active={path === '/dashboard'} />
-        <NavItem to="/agents" icon={Users} label="Agent Factory" active={path === '/agents'} />
-        <NavItem to="/logs" icon={Terminal} label="Live Logs" active={path === '/logs'} />
-        
-        <div className="text-[10px] uppercase font-bold text-gray-600 pl-4 mb-2 mt-8 tracking-widest">
-          Creative Suite
-        </div>
-        <NavItem to="/creative" icon={ImageIcon} label="Creative Lab" active={path === '/creative'} />
-        <NavItem to="/analytics" icon={BarChart2} label="Analytics" active={path === '/analytics'} />
-        <NavItem to="/assets" icon={Box} label="Asset Manager" active={path === '/assets'} />
+      <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+        <p className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest px-3 mb-4">Menu Principal</p>
+        {menuItems.map((item) => {
+          const isActive = location.pathname.startsWith(item.path);
+          const Icon = item.icon;
+
+          return (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={cn(
+                "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all relative group",
+                isActive
+                  ? "text-white"
+                  : "text-zinc-400 hover:text-zinc-200 hover:bg-white/5"
+              )}
+            >
+              {isActive && (
+                <motion.div
+                  layoutId="sidebar-active"
+                  className="absolute inset-0 bg-[#1A1A1A] border border-white/5 rounded-xl z-0 shadow-inner"
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+              <Icon className={cn("w-4 h-4 relative z-10", isActive ? "text-[var(--color-neon-blue)] drop-shadow-[0_0_8px_rgba(0,243,255,0.8)]" : "")} />
+              <span className="relative z-10">{item.name}</span>
+            </Link>
+          );
+        })}
       </nav>
 
-      {/* Footer / User */}
-      <div className="pt-6 border-t border-white/5">
-        <NavItem to="/settings" icon={Settings} label="System Settings" active={path === '/settings'} />
-        <button className="flex items-center gap-3 px-4 py-3 w-full text-left text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-xl transition-all mt-2 group">
-          <LogOut className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-          <span className="text-sm font-medium">Terminate Session</span>
-        </button>
+      <div className="p-4 border-t border-[#2A2A2A]">
+        <div className="p-4 rounded-xl bg-[#1A1A1A] border border-white/5 flex flex-col gap-2">
+          <span className="text-xs font-semibold text-zinc-300">Status do Sistema</span>
+          <div className="flex items-center gap-2 text-[10px] font-mono text-zinc-500">
+            <span className="w-2 h-2 rounded-full bg-[var(--color-neon-green)] shadow-[0_0_8px_var(--color-neon-green)] animate-pulse" />
+            Operação Normal
+          </div>
+        </div>
       </div>
     </aside>
   );
-};
+}
