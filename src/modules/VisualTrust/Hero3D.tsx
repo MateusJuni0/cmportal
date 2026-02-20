@@ -55,7 +55,7 @@ export const Hero3D: React.FC = () => {
       {/* Camada de Texto (UI) */}
       <div className="absolute z-10 text-center pointer-events-none px-4">
         <h1 className="text-6xl md:text-8xl font-light text-white tracking-tighter mb-4">
-          Sovereign <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-cm-accent to-blue-600">Engine</span>
+          CMTEC Elite <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-cm-accent to-blue-600">Sovereign Engine</span>
         </h1>
         <p className="text-gray-400 text-lg md:text-xl font-light tracking-wide">
           Design Sells Trust. AI Executes Wealth.

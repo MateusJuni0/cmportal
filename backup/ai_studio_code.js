@@ -5,21 +5,21 @@ export default {
     extend: {
       colors: {
         cm: {
-          dark: '#0a0a0c', // Fundo principal super escuro
-          panel: '#151518', // Fundo de painéis
-          accent: '#00f0ff', // Ciano futurista para brilhos (Alfa)
-          gold: '#d4af37', // Dourado premium para status "Prime" (Nero)
+          deep: '#0a0a0c',     // Deep Space
+          cyan: '#00f0ff',     // Electric Cyan
+          gold: '#d4af37',     // Sovereign Gold
+          red: '#ff4b2b',      // Error Red
+          panel: 'rgba(255, 255, 255, 0.03)', // Base Glass
         }
       },
       boxShadow: {
-        // Neumorphism para Dark Mode
-        'neu-dark': '5px 5px 10px #040405, -5px -5px 10px #101013',
-        'neu-dark-inset': 'inset 5px 5px 10px #040405, inset -5px -5px 10px #101013',
-        // Glassmorphism glow
-        'glass-glow': '0 0 20px rgba(0, 240, 255, 0.1)',
+        'glow-cyan': '0 0 20px rgba(0, 240, 255, 0.15)',
+        'glow-cyan-strong': '0 0 30px rgba(0, 240, 255, 0.4)',
+        'glow-gold': '0 0 20px rgba(212, 175, 55, 0.15)',
+        'glow-red': '0 0 20px rgba(255, 75, 43, 0.2)',
       },
-      backgroundImage: {
-        'glass-gradient': 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01))',
+      backdropBlur: {
+        'apple': '24px',
       }
     },
   },
