@@ -1,26 +1,26 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { AppLayout } from "@/components/layout/AppLayout";
-import { Hero3D } from "@/modules/VisualTrust/Hero3D";
+import { AppLayout } from "./components/layout/AppLayout";
+import { Hero3D } from "./modules/VisualTrust/Hero3D";
 
-import { Dashboard } from "@/pages/dashboard";
-import { AgentFactory } from "@/pages/agents/factory";
-import { LiveLogTerminalPage } from "@/pages/agents/logs/LogsPage";
-import { CreativeLab } from "@/pages/creative-lab";
-import { AuthPage } from "@/pages/auth";
+import { Dashboard } from "./pages/dashboard/DashboardPage";
+import { AgentFactory } from "./pages/agents/factory/AgentFactoryPage";
+import { LiveLogTerminalPage } from "./pages/agents/logs/LogsPage";
+import { CreativeLab } from "./pages/creative-lab/CreativeLabPage";
+import { AuthPage } from "./pages/auth/AuthPage";
 
-import { AgentWarfare } from "@/pages/innovation/AgentWarfare";
-import { GrowthEngines } from "@/pages/innovation/GrowthEngines";
-import { MarketIntelligence } from "@/pages/innovation/MarketIntelligence";
+import { AgentWarfare } from "./pages/innovation/AgentWarfare";
+import { GrowthEngines } from "./pages/innovation/GrowthEngines";
+import { MarketIntelligence } from "./pages/innovation/MarketIntelligence";
 
-import { AIBoardroom } from "@/pages/nexus/AIBoardroom";
-import { OmniscienceGrid } from "@/pages/nexus/OmniscienceGrid";
-import { QuantumTreasury } from "@/pages/nexus/QuantumTreasury";
+import { AIBoardroom } from "./pages/nexus/AIBoardroom";
+import { OmniscienceGrid } from "./pages/nexus/OmniscienceGrid";
+import { QuantumTreasury } from "./pages/nexus/QuantumTreasury";
 
-import { VisualSiteEditor } from "@/pages/cms";
-import { LPBuilder } from "@/pages/lp-builder";
-import { AITraining } from "@/pages/ai-training";
-import { SceneCustomizer } from "@/pages/settings/3d-customizer";
-import { GitSyncTool } from "@/pages/settings/git-sync";
+import { VisualSiteEditor } from "./pages/cms/CMSPage";
+import { LPBuilder } from "./pages/lp-builder/LPBuilderPage";
+import { AITraining } from "./pages/ai-training/AITrainingPage";
+import { SceneCustomizer } from "./pages/settings/3d-customizer/ThreeDPage";
+import { GitSyncTool } from "./pages/settings/git-sync/GitSyncPage";
 
 export default function App() {
   return (
