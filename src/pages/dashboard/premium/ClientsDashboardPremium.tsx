@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Users, Search, Plus, Edit, Trash2, X, CreditCard, Building, ShieldCheck } from 'lucide-react';
 import { Card, CardContent } from './components/CardPremium';
 import { Badge } from './components/BadgePremium';
+import { cn } from '../../../utils/cn';
 
 // Mock data adaptado do Minimax
 const mockClients = [

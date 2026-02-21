@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, UserPlus, Target, BarChart3, Filter, MoreHorizontal, ArrowUpRight } from 'lucide-react';
+import { Users, UserPlus, Target, BarChart3, Filter, MoreHorizontal, ArrowUpRight, TrendingUp } from 'lucide-react';
 import { 
   BarChart, 
   Bar, 
@@ -12,6 +12,7 @@ import {
 } from 'recharts';
 import { Card, CardContent } from './components/CardPremium';
 import { Badge } from './components/BadgePremium';
+import { cn } from '../../../utils/cn';
 
 const mockLeads = [
   { id: 1, name: 'Biclaque Trajano', company: 'Logística Avançada', score: 95, status: 'Hot', value: 'R$ 15.000', lastContact: '2h atrás' },
