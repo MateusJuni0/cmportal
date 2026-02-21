@@ -50,6 +50,13 @@ const settingsItems = [
   { name: "Git Sync", path: "/settings/git-sync", icon: GitCommit },
 ];
 
+const premiumItems = [
+  { name: "Financial Elite", path: "/premium/financial", icon: DollarSign },
+  { name: "WhatsApp Warming", path: "/premium/whatsapp", icon: MessageSquare },
+  { name: "Leads Sniper V2", path: "/premium/leads", icon: Target },
+  { name: "Client Ecosystem", path: "/premium/clients", icon: Users },
+];
+
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const location = useLocation();
   const setClientFilters = useAppStore((state) => state.setClientFilters);
@@ -157,6 +164,11 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           <div>
             <p className="text-[10px] font-black text-zinc-600 uppercase tracking-[0.2em] px-3 mb-3">Systems</p>
             <div className="space-y-1">{settingsItems.map(renderLink)}</div>
+          </div>
+
+          <div>
+            <p className="text-[10px] font-black text-[#a855f7] uppercase tracking-[0.2em] px-3 mb-3">Premium Modules</p>
+            <div className="space-y-1">{premiumItems.map(renderLink)}</div>
           </div>
         </nav>
 

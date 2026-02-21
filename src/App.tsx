@@ -32,6 +32,12 @@ import { ClientsPage } from "./pages/data-management/ClientsPage";
 import { FinancialPage } from "./pages/data-management/FinancialPage";
 import { WhatsAppPage } from "./pages/data-management/WhatsAppPage";
 
+// Premium (Minimax)
+import { LeadsDashboardPremium } from "./pages/dashboard/premium/LeadsDashboardPremium";
+import { ClientsDashboardPremium } from "./pages/dashboard/premium/ClientsDashboardPremium";
+import { FinancialDashboardPremium } from "./pages/dashboard/premium/FinancialDashboardPremium";
+import { WhatsAppDashboardPremium } from "./pages/dashboard/premium/WhatsAppDashboardPremium";
+
 export default function App() {
   return (
     <Router>
@@ -47,6 +53,12 @@ export default function App() {
         <Route path="/data/clients" element={<AppLayout><ClientsPage /></AppLayout>} />
         <Route path="/data/financial" element={<AppLayout><FinancialPage /></AppLayout>} />
         <Route path="/data/whatsapp" element={<AppLayout><WhatsAppPage /></AppLayout>} />
+
+        {/* Premium Dashboards */}
+        <Route path="/premium/leads" element={<AppLayout><LeadsDashboardPremium /></AppLayout>} />
+        <Route path="/premium/clients" element={<AppLayout><ClientsDashboardPremium /></AppLayout>} />
+        <Route path="/premium/financial" element={<AppLayout><FinancialDashboardPremium /></AppLayout>} />
+        <Route path="/premium/whatsapp" element={<AppLayout><WhatsAppDashboardPremium /></AppLayout>} />
 
         <Route path="/innovation/warfare" element={<AppLayout><AgentWarfare /></AppLayout>} />
         <Route path="/innovation/growth" element={<AppLayout><GrowthEngines /></AppLayout>} />
