@@ -27,10 +27,10 @@ import { SceneCustomizer } from "@/pages/settings/3d-customizer/ThreeDPage";
 import { GitSyncTool } from "@/pages/settings/git-sync/GitSyncPage";
 
 // Data Management
-import { LeadsPage } from "@/pages/data-management/LeadsPage";
-import { ClientsPage } from "@/pages/data-management/ClientsPage";
-import { FinancialPage } from "@/pages/data-management/FinancialPage";
-import { WhatsAppPage } from "@/pages/data-management/WhatsAppPage";
+import { LeadsPage } from "./pages/data-management/LeadsPage";
+import { ClientsPage } from "./pages/data-management/ClientsPage";
+import { FinancialPage } from "./pages/data-management/FinancialPage";
+import { WhatsAppPage } from "./pages/data-management/WhatsAppPage";
 
 export default function App() {
   return (

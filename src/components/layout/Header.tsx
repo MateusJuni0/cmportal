@@ -32,9 +32,11 @@ export function Header({ onOpenSidebar }: HeaderProps) {
         </button>
         <div className="hidden sm:block h-6 w-[1px] bg-white/10 mx-2" />
         <DeployButton />
-        <div className="flex items-center gap-3 ml-2">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-purple-500 p-[1px]">
-             <div className="w-full h-full bg-[#1A1A1A] rounded-full border border-black/50" />
+        <div className="flex items-center gap-3 ml-2 group cursor-pointer">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-cyan-500 via-purple-500 to-rose-500 p-[1px] shadow-[0_0_15px_rgba(34,211,238,0.2)] group-hover:shadow-[0_0_20px_rgba(34,211,238,0.4)] transition-all">
+             <div className="w-full h-full bg-[#0A0A0A] rounded-full border border-black/50 flex items-center justify-center overflow-hidden">
+                <img src="https://github.com/MateusJuni0.png" alt="Mateus" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+             </div>
           </div>
         </div>
       </div>
