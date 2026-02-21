@@ -43,8 +43,6 @@ export function AppLayout({ children }: { children: ReactNode }) {
           </AnimatePresence>
         </div>
       </main>
-
-      <GlobalSearch />
     </div>
   );
 }
