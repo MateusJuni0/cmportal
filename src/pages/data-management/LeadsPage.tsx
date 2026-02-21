@@ -40,7 +40,7 @@ function getScoreColor(score: number): 'success' | 'warning' | 'destructive' | '
   return 'secondary';
 }
 
-export function LeadsDashboard() {
+export function LeadsPage() {
   const { filteredLeads, leadFilters, setLeadFilters } = useAppStore();
   
   const totalLeads = filteredLeads.length;

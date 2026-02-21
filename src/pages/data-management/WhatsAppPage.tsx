@@ -66,7 +66,7 @@ const warmingProgressData = [
   { day: '20/02', sent: 800, received: 450, limit: 1000 },
 ];
 
-export function WhatsAppDashboard() {
+export function WhatsAppPage() {
   const { whatsappAccounts } = useAppStore();
   
   const totalSent = whatsappAccounts.reduce((acc, a) => acc + a.messagesSent, 0);

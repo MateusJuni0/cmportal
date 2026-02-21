@@ -45,7 +45,7 @@ const formatCurrency = (value: number) =>
     maximumFractionDigits: 0,
   }).format(value);
 
-export function ClientsDashboard() {
+export function ClientsPage() {
   const { filteredClients, clientFilters, setClientFilters, clients } = useAppStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingClient, setEditingClient] = useState<Client | null>(null);

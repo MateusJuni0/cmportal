@@ -42,7 +42,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
-export function FinancialDashboard() {
+export function FinancialPage() {
   const { financialData } = useAppStore();
   
   const totalRevenue = financialData.reduce((acc, d) => acc + d.revenue, 0);
