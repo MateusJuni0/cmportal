@@ -6,44 +6,60 @@ interface AppState {
   // Agents
   agents: Agent[];
   addAgent: (agent: Omit<Agent, "id" | "createdAt">) => void;
+  updateAgent: (id: string, updates: Partial<Agent>) => void;
+  deleteAgent: (id: string) => void;
   toggleAgentStatus: (id: string) => void;
   
   // Training
   trainingFiles: TrainingFile[];
   addTrainingFile: (file: Omit<TrainingFile, "id" | "uploadedAt">) => void;
   removeTrainingFile: (id: string) => void;
-  clearTrainingFiles: () => void;
 
-  // Clients
+  // CRM: Clients
   clients: Client[];
   filteredClients: Client[];
   clientFilters: { search: string; status: string | null };
   setClientFilters: (filters: Partial<AppState['clientFilters']>) => void;
   addClient: (client: Omit<Client, "id">) => void;
+  updateClient: (id: string, updates: Partial<Client>) => void;
 
-  // Leads
+  // CRM: Leads
   leads: Lead[];
   filteredLeads: Lead[];
-  leadFilters: { search: string; status: string | null };
+  leadFilters: { search: string; status: string | null; source: string | null };
   setLeadFilters: (filters: Partial<AppState['leadFilters']>) => void;
+  addLead: (lead: Omit<Lead, "id" | "createdAt">) => void;
+  updateLead: (id: string, updates: Partial<Lead>) => void;
 
-  // Financial
+  // Systems
   financialData: FinancialData[];
-
-  // WhatsApp
   whatsappAccounts: WhatsAppAccount[];
-
-  // Logs
+  
+  // Intelligence Stream (Logs)
   logs: LogEntry[];
-  addLog: (log: Omit<LogEntry, "id" | "timestamp">) => void;
+  addLog: (message: string, level?: LogEntry['level'], agentId?: string) => void;
 }
 
-export const useAppStore = create<AppState>((set) => ({
+export const useAppStore = create<AppState>((set, get) => ({
   // Agents
   agents: mockAgents as Agent[],
-  addAgent: (agent) => set((state) => ({ 
-    agents: [{ ...agent, id: Math.random().toString(36).substr(2, 9), createdAt: new Date() }, ...state.agents] 
+  addAgent: (agentData) => {
+    const newAgent: Agent = { 
+      ...agentData, 
+      id: Math.random().toString(36).substr(2, 9), 
+      createdAt: new Date() 
+    };
+    set((state) => ({ agents: [newAgent, ...state.agents] }));
+    get().addLog(`Novo agente criado: ${newAgent.name}`, 'success');
+  },
+  updateAgent: (id, updates) => set((state) => ({
+    agents: state.agents.map(a => a.id === id ? { ...a, ...updates } : a)
   })),
+  deleteAgent: (id) => {
+    const agent = get().agents.find(a => a.id === id);
+    set((state) => ({ agents: state.agents.filter(a => a.id !== id) }));
+    if (agent) get().addLog(`Agente deletado: ${agent.name}`, 'warning');
+  },
   toggleAgentStatus: (id) => set((state) => ({
     agents: state.agents.map(a => a.id === id ? { ...a, status: a.status === 'online' ? 'offline' : 'online' } : a)
   })),
@@ -56,51 +72,78 @@ export const useAppStore = create<AppState>((set) => ({
   removeTrainingFile: (id) => set((state) => ({
     trainingFiles: state.trainingFiles.filter(f => f.id !== id)
   })),
-  clearTrainingFiles: () => set({ trainingFiles: [] }),
 
   // Clients
   clients: mockClients,
   filteredClients: mockClients,
   clientFilters: { search: '', status: null },
-  setClientFilters: (filters) => set((state) => {
-    const newFilters = { ...state.clientFilters, ...filters };
-    const filtered = state.clients.filter(client => {
+  setClientFilters: (filters) => {
+    const newFilters = { ...get().clientFilters, ...filters };
+    const filtered = get().clients.filter(client => {
       const matchesSearch = client.name.toLowerCase().includes(newFilters.search.toLowerCase()) || 
                             client.company.toLowerCase().includes(newFilters.search.toLowerCase());
       const matchesStatus = !newFilters.status || client.status === newFilters.status;
       return matchesSearch && matchesStatus;
     });
-    return { clientFilters: newFilters, filteredClients: filtered };
-  }),
-  addClient: (client) => set((state) => ({
-    clients: [{ ...client, id: Math.random().toString(36).substr(2, 9) }, ...state.clients],
-    filteredClients: [{ ...client, id: Math.random().toString(36).substr(2, 9) }, ...state.clients]
+    set({ clientFilters: newFilters, filteredClients: filtered });
+  },
+  addClient: (clientData) => {
+    const newClient: Client = { ...clientData, id: Math.random().toString(36).substr(2, 9) };
+    set((state) => ({
+      clients: [newClient, ...state.clients],
+      filteredClients: [newClient, ...state.clients]
+    }));
+    get().addLog(`Novo cliente adicionado: ${newClient.company}`, 'success');
+  },
+  updateClient: (id, updates) => set((state) => ({
+    clients: state.clients.map(c => c.id === id ? { ...c, ...updates } : c)
   })),
 
   // Leads
   leads: mockLeads,
   filteredLeads: mockLeads,
-  leadFilters: { search: '', status: null },
-  setLeadFilters: (filters) => set((state) => {
-    const newFilters = { ...state.leadFilters, ...filters };
-    const filtered = state.leads.filter(lead => {
+  leadFilters: { search: '', status: null, source: null },
+  setLeadFilters: (filters) => {
+    const newFilters = { ...get().leadFilters, ...filters };
+    const filtered = get().leads.filter(lead => {
       const matchesSearch = lead.name.toLowerCase().includes(newFilters.search.toLowerCase()) || 
                             lead.company.toLowerCase().includes(newFilters.search.toLowerCase());
       const matchesStatus = !newFilters.status || lead.status === newFilters.status;
-      return matchesSearch && matchesStatus;
+      const matchesSource = !newFilters.source || lead.source === newFilters.source;
+      return matchesSearch && matchesStatus && matchesSource;
     });
-    return { leadFilters: newFilters, filteredLeads: filtered };
-  }),
+    set({ leadFilters: newFilters, filteredLeads: filtered });
+  },
+  addLead: (leadData) => {
+    const newLead: Lead = { 
+      ...leadData, 
+      id: Math.random().toString(36).substr(2, 9), 
+      createdAt: new Date() 
+    };
+    set((state) => ({
+      leads: [newLead, ...state.leads],
+      filteredLeads: [newLead, ...state.leads]
+    }));
+    get().addLog(`Novo lead capturado: ${newLead.name} (${newLead.source})`, 'info');
+  },
+  updateLead: (id, updates) => set((state) => ({
+    leads: state.leads.map(l => l.id === id ? { ...l, ...updates } : l)
+  })),
 
-  // Financial
+  // Systems (Static for now, can be expanded to dynamic later)
   financialData: mockFinancialData,
-
-  // WhatsApp
   whatsappAccounts: mockWhatsAppAccounts,
 
-  // Logs
+  // Logs / Intelligence Stream
   logs: mockLogEntries,
-  addLog: (log) => set((state) => ({
-    logs: [{ ...log, id: Math.random().toString(36).substr(2, 9), timestamp: new Date() }, ...state.logs]
-  })),
+  addLog: (message, level = 'info', agentId) => {
+    const newLog: LogEntry = {
+      id: Math.random().toString(36).substr(2, 9),
+      timestamp: new Date(),
+      level,
+      message,
+      agentId
+    };
+    set((state) => ({ logs: [newLog, ...state.logs].slice(0, 100) })); // Limit to 100 logs
+  }
 }));

@@ -52,15 +52,24 @@ const settingsItems = [
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const location = useLocation();
 
+    const { setClientFilters, setLeadFilters } = useAppStore();
+
   const renderLink = (item: any) => {
     const isActive = location.pathname === item.path;
     const Icon = item.icon;
+
+    const handleClick = () => {
+      onClose();
+      // Reset filters when navigating to a list
+      if (item.path === '/data/clients') setClientFilters({ search: '', status: null });
+      if (item.path === '/data/leads') setLeadFilters({ search: '', status: null, source: null });
+    };
 
     return (
       <Link
         key={item.path}
         to={item.path}
-        onClick={onClose}
+        onClick={handleClick}
         className={cn(
           "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all relative group",
           isActive

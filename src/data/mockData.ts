@@ -1,41 +1,63 @@
 import { Agent, Lead, Client, FinancialData, WhatsAppAccount, LogEntry } from '../types';
 
 export const mockAgents: Agent[] = [
-  { id: '1', name: 'Dante', role: 'Chief Executive Agent', personality: 'Estratégico, focado em ROI e expansão de mercado.', status: 'online', skills: ['Vendas', 'Gestão', 'Estratégia'], createdAt: new Date() },
-  { id: '2', name: 'Nero', role: 'Hunter Elite', personality: 'Persistente, analítico e focado em prospecção fria.', status: 'online', skills: ['LinkedIn Scraper', 'Email Hunting', 'Qualificação'], createdAt: new Date() },
-  { id: '3', name: 'Lúcio', role: 'Architect QA', personality: 'Técnico, rigoroso com qualidade e estabilidade.', status: 'online', skills: ['Code Review', 'Infra', 'Segurança'], createdAt: new Date() },
+  { 
+    id: '1', 
+    name: 'Dante', 
+    role: 'Sovereign Architect', 
+    personality: 'Analítico, estrategista e focado em escala massiva.', 
+    status: 'online', 
+    skills: ['Orquestração', 'Deploy Automation', 'State Sync'], 
+    createdAt: new Date('2026-02-01') 
+  },
+  { 
+    id: '2', 
+    name: 'Nero', 
+    role: 'Hunter Elite', 
+    personality: 'Persistente e agressivo na prospecção de mercado luxo.', 
+    status: 'online', 
+    skills: ['Lead Scraping', 'Social Infiltration', 'Cold Outreach'], 
+    createdAt: new Date('2026-02-05') 
+  },
+  { 
+    id: '3', 
+    name: 'Alfa', 
+    role: 'Sniper Intention', 
+    personality: 'Silencioso, preciso e focado em sinais de compra quentes.', 
+    status: 'online', 
+    skills: ['Intent Analysis', 'Real-time Monitoring', 'Signal Extraction'], 
+    createdAt: new Date('2026-02-10') 
+  },
 ];
 
 export const mockLeads: Lead[] = [
-  { id: '1', name: 'João Silva', company: 'TechStart Brasil', email: 'joao@techstart.com', phone: '+5511999999999', score: 92, source: 'linkedin', status: 'new', createdAt: new Date('2024-01-15') },
-  { id: '2', name: 'Maria Santos', company: 'Digital Solutions', email: 'maria@digitalsol.com', phone: '+5511888888888', score: 85, source: 'instagram', status: 'contacted', createdAt: new Date('2024-01-14') },
-  { id: '3', name: 'Pedro Costa', company: 'Inovação Tech', email: 'pedro@inovacaotech.com', phone: '+5511777777777', score: 78, source: 'zaask', status: 'qualified', createdAt: new Date('2024-01-13') },
-  { id: '4', name: 'Ana Oliveira', company: 'Cloud Systems', email: 'ana@cloudsystems.com', phone: '+5511666666666', score: 71, source: 'google', status: 'proposal', createdAt: new Date('2024-01-12') },
-  { id: '5', name: 'Carlos Mendes', company: 'DataFlow', email: 'carlos@dataflow.com', phone: '+5511555555555', score: 65, source: 'linkedin', status: 'new', createdAt: new Date('2024-01-11') },
+  { id: '1', name: 'Ricardo Pereira', company: 'Belcanto Group', email: 'ricardo@belcanto.pt', phone: '+351912345678', score: 95, source: 'linkedin', status: 'qualified', createdAt: new Date('2026-02-18') },
+  { id: '2', name: 'Sofia Amaral', company: 'Luxury Real Estate', email: 'sofia@luxury.pt', phone: '+351912345679', score: 88, source: 'instagram', status: 'new', createdAt: new Date('2026-02-19') },
+  { id: '3', name: 'Biclaque Trajano', company: 'Independente', email: 'btrajano@gmail.com', phone: '+351934567890', score: 82, source: 'zaask', status: 'contacted', createdAt: new Date('2026-02-20') },
+  { id: '4', name: 'António Silva', company: 'Almadrava Lisboa', email: 'antonio@almadrava.com', phone: '+351961234567', score: 75, source: 'google', status: 'proposal', createdAt: new Date('2026-02-21') },
 ];
 
 export const mockClients: Client[] = [
-  { id: '1', name: 'Empresa ABC Ltda', email: 'contato@abc.com', company: 'ABC Tecnologia', phone: '+5511999999999', status: 'active', plan: 'professional', startDate: new Date('2024-01-01'), monthlyValue: 1500 },
-  { id: '2', name: 'XYZ Corporation', email: 'financeiro@xyz.com', company: 'XYZ Corp', phone: '+5511888888888', status: 'trial', plan: 'starter', startDate: new Date('2024-01-10'), trialEndDate: new Date('2024-01-24'), monthlyValue: 0 },
-  { id: '3', name: 'Tech Innovators', email: 'ti@techinnovators.com', company: 'Tech Innovators SA', phone: '+5511777777777', status: 'active', plan: 'enterprise', startDate: new Date('2023-12-01'), monthlyValue: 5000 },
+  { id: '1', name: 'Mateus Oliveira', email: 'mateus@cmtecnologia.pt', company: 'CM Tecnologia', phone: '+351910000000', status: 'active', plan: 'enterprise', startDate: new Date('2026-01-01'), monthlyValue: 12500 },
+  { id: '2', name: 'João Avillez', email: 'joao@avillez.pt', company: 'Grupo Avillez', phone: '+351912222222', status: 'active', plan: 'professional', startDate: new Date('2026-02-10'), monthlyValue: 2500 },
 ];
 
 export const mockFinancialData: FinancialData[] = [
-  { date: 'Jan', revenue: 12500, costs: 3200, profit: 9300, apiCosts: 1200 },
-  { date: 'Fev', revenue: 15200, costs: 3800, profit: 11400, apiCosts: 1500 },
-  { date: 'Mar', revenue: 18900, costs: 4200, profit: 14700, apiCosts: 1800 },
-  { date: 'Abr', revenue: 21300, costs: 5100, profit: 16200, apiCosts: 2200 },
-  { date: 'Mai', revenue: 24800, costs: 5800, profit: 19000, apiCosts: 2600 },
-  { date: 'Jun', revenue: 28400, costs: 6400, profit: 22000, apiCosts: 2900 },
+  { date: 'Set', revenue: 8500, costs: 2100, profit: 6400, apiCosts: 850 },
+  { date: 'Out', revenue: 12200, costs: 3200, profit: 9000, apiCosts: 1100 },
+  { date: 'Nov', revenue: 15900, costs: 4100, profit: 11800, apiCosts: 1400 },
+  { date: 'Dez', revenue: 22300, costs: 5200, profit: 17100, apiCosts: 1900 },
+  { date: 'Jan', revenue: 31800, costs: 6800, profit: 25000, apiCosts: 2600 },
+  { date: 'Fev', revenue: 42500, costs: 8200, profit: 34300, apiCosts: 3200 },
 ];
 
 export const mockWhatsAppAccounts: WhatsAppAccount[] = [
-  { id: '1', phoneNumber: '+351912345678', status: 'active', messagesSent: 1250, messagesReceived: 890, warmingProgress: 100, lastActivity: new Date() },
-  { id: '2', phoneNumber: '+351912345679', status: 'warming', messagesSent: 450, messagesReceived: 320, warmingProgress: 45, lastActivity: new Date(Date.now() - 3600000) },
+  { id: '1', phoneNumber: '+351910000001', status: 'active', messagesSent: 5420, messagesReceived: 3150, warmingProgress: 100, lastActivity: new Date() },
+  { id: '2', phoneNumber: '+351910000002', status: 'warming', messagesSent: 850, messagesReceived: 420, warmingProgress: 65, lastActivity: new Date() },
 ];
 
 export const mockLogEntries: LogEntry[] = [
-  { id: '1', timestamp: new Date(Date.now() - 60000), level: 'info', message: 'Dante iniciou prospecção estratégica para mercado imobiliário.' },
-  { id: '2', timestamp: new Date(Date.now() - 55000), level: 'success', message: 'Nero identificou 15 novos leads de alta intenção no LinkedIn.' },
-  { id: '3', timestamp: new Date(Date.now() - 50000), level: 'warning', message: 'Lúcio detectou latência acima do normal na Evolution API.' },
+  { id: '1', timestamp: new Date(Date.now() - 3600000), level: 'success', message: 'Dante concluiu a integração da Melhoria 2 com 100% de precisão.' },
+  { id: '2', timestamp: new Date(Date.now() - 1800000), level: 'info', message: 'Nero iniciou varredura por leads luxo em Lisboa.' },
+  { id: '3', timestamp: new Date(Date.now() - 600000), level: 'success', message: 'Lead "Almadrava Lisboa" capturado e classificado como Alta Intenção.' },
 ];
