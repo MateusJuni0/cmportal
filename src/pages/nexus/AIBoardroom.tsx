@@ -43,11 +43,11 @@ export function AIBoardroom() {
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-3">
+          <h1 className="text-3xl font-bold tracking-tight text-white flex items-center gap-3">
             <Users className="w-8 h-8 text-indigo-500" />
             AI Boardroom
           </h1>
-          <p className="text-slate-500 dark:text-zinc-400 mt-2 text-sm">
+          <p className="text-zinc-400 mt-2 text-sm">
             Orchestration layer. Let your specialized AI personas debate strategy and execute swarms.
           </p>
         </div>
@@ -63,12 +63,12 @@ export function AIBoardroom() {
         animate="show"
         className="grid grid-cols-1 lg:grid-cols-12 gap-6"
       >
-        {/* Item 03: Persona Debates (SOLDADO) */}
-        <motion.div variants={item} className="lg:col-span-8 rounded-2xl border border-black/5 dark:border-white/10 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-xl overflow-hidden shadow-xl p-6 relative">
+        {/* Item 03: Persona Debates */}
+        <motion.div variants={item} className="lg:col-span-8 rounded-2xl border border-white/10 bg-[#121212] overflow-hidden shadow-xl p-6 relative">
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent pointer-events-none" />
           <div className="flex items-center gap-3 mb-6 relative z-10">
             <Cpu className="w-5 h-5 text-indigo-500" />
-            <h2 className="text-lg font-bold text-slate-900 dark:text-white">Autonomous Strategy Debate (The Board)</h2>
+            <h2 className="text-lg font-bold text-white">Autonomous Strategy Debate (The Board)</h2>
           </div>
           
           <div className="flex justify-around mb-8 relative z-10">
@@ -81,12 +81,12 @@ export function AIBoardroom() {
                 >
                   <Bot className="w-6 h-6 text-indigo-400" />
                 </motion.div>
-                <span className="text-[10px] font-bold text-slate-500 dark:text-zinc-400 uppercase tracking-widest">{persona}</span>
+                <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">{persona}</span>
               </div>
             ))}
           </div>
 
-          <div className="bg-zinc-100 dark:bg-black/50 border border-black/5 dark:border-white/5 rounded-xl p-4 h-48 overflow-y-auto font-mono text-sm relative z-10">
+          <div className="bg-black/50 border border-white/5 rounded-xl p-4 h-48 overflow-y-auto font-mono text-sm relative z-10">
             {boardLog.map((log, i) => (
               <motion.div 
                 key={i} 
@@ -107,12 +107,12 @@ export function AIBoardroom() {
         </motion.div>
 
         {/* Swarm Intelligence */}
-        <motion.div variants={item} className="lg:col-span-4 rounded-2xl border border-black/5 dark:border-white/10 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-xl p-6 flex flex-col">
+        <motion.div variants={item} className="lg:col-span-4 rounded-2xl border border-white/10 bg-[#121212] p-6 flex flex-col">
           <div className="flex items-center gap-3 mb-4">
             <ShieldAlert className="w-5 h-5 text-indigo-500" />
-            <h2 className="text-lg font-bold text-slate-900 dark:text-white">Swarm Attack</h2>
+            <h2 className="text-lg font-bold text-white">Swarm Attack</h2>
           </div>
-          <p className="text-xs text-slate-500 dark:text-zinc-400 mb-4">
+          <p className="text-xs text-zinc-400 mb-4">
             Multi-agent coordinated encirclement on target accounts.
           </p>
           <div className="flex-1 space-y-3">
@@ -121,9 +121,9 @@ export function AIBoardroom() {
               { channel: "Blog Commenter", status: "Active (5 posts/h)" },
               { channel: "Video DM Bot", status: "Queueing..." }
             ].map((swarm, i) => (
-              <div key={i} className="flex items-center justify-between p-3 bg-white dark:bg-zinc-900/50 border border-black/5 dark:border-white/5 rounded-lg">
-                <span className="text-xs font-medium text-slate-700 dark:text-zinc-300">{swarm.channel}</span>
-                <span className={`text-[10px] ${swarm.status.includes('Active') ? 'text-green-500' : 'text-amber-500'}`}>{swarm.status}</span>
+              <div key={i} className="flex items-center justify-between p-3 bg-black/40 border border-white/5 rounded-lg">
+                <span className="text-xs font-medium text-zinc-300">{swarm.channel}</span>
+                <span className={`text-[10px] ${swarm.status.includes('Active') ? 'text-emerald-500' : 'text-amber-500'}`}>{swarm.status}</span>
               </div>
             ))}
           </div>
@@ -133,13 +133,13 @@ export function AIBoardroom() {
         </motion.div>
 
         {/* Automated PLG Engineer */}
-        <motion.div variants={item} className="lg:col-span-4 rounded-2xl border border-black/5 dark:border-white/10 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-xl p-6">
+        <motion.div variants={item} className="lg:col-span-4 rounded-2xl border border-white/10 bg-[#121212] p-6">
           <div className="flex items-center gap-3 mb-4">
             <GitMerge className="w-5 h-5 text-blue-500" />
-            <h2 className="text-lg font-bold text-slate-900 dark:text-white">Auto-PLG Engineer</h2>
+            <h2 className="text-lg font-bold text-white">Auto-PLG Engineer</h2>
           </div>
-          <p className="text-xs text-slate-500 dark:text-zinc-400 mb-4">
-            AI detects app drop-offs and automatically writes/deploys micro-fixes or Jira tickets.
+          <p className="text-xs text-zinc-400 mb-4">
+            AI detects app drop-offs and automatically writes/deploys micro-fixes.
           </p>
           <div className="space-y-3">
             <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
@@ -147,8 +147,8 @@ export function AIBoardroom() {
                 <span className="text-[10px] text-blue-500 font-bold tracking-widest">TICKET-082</span>
                 <span className="text-[10px] text-zinc-500">Auto-Generated</span>
               </div>
-              <p className="text-xs text-slate-700 dark:text-zinc-300">"Add tooltip to 'Export' button. Drop-off detected at 14%."</p>
-              <div className="mt-2 flex items-center gap-1 text-[10px] text-green-500">
+              <p className="text-xs text-zinc-300">"Add tooltip to 'Export' button. Drop-off detected at 14%."</p>
+              <div className="mt-2 flex items-center gap-1 text-[10px] text-emerald-500">
                 <CheckCircle2 className="w-3 h-3" /> Fix Deployed to Prod
               </div>
             </div>
@@ -156,27 +156,23 @@ export function AIBoardroom() {
         </motion.div>
 
         {/* Self-Replicating Agent Factory */}
-        <motion.div variants={item} className="lg:col-span-4 rounded-2xl border border-black/5 dark:border-white/10 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-xl p-6 relative overflow-hidden">
+        <motion.div variants={item} className="lg:col-span-4 rounded-2xl border border-white/10 bg-[#121212] p-6 relative overflow-hidden">
           <div className="flex items-center gap-3 mb-4">
-            <Fingerprint className="w-5 h-5 text-teal-500" />
-            <h2 className="text-lg font-bold text-slate-900 dark:text-white">Self-Replication Tree</h2>
+            <Fingerprint className="w-5 h-5 text-emerald-500" />
+            <h2 className="text-lg font-bold text-white">Self-Replication Tree</h2>
           </div>
-          <p className="text-xs text-slate-500 dark:text-zinc-400 mb-6">
+          <p className="text-xs text-zinc-400 mb-6">
             Agents that exceed 80% win-rate are automatically cloned and mutated.
           </p>
           <div className="flex justify-center items-center h-24">
-            <div className="w-full max-w-[200px] h-full relative flex items-center justify-center border-t-2 border-l-2 border-teal-500/30 rounded-tl-xl p-4">
+            <div className="w-full max-w-[200px] h-full relative flex items-center justify-center border-t-2 border-l-2 border-emerald-500/30 rounded-tl-xl p-4">
                <motion.div 
-                 className="absolute -top-3 -left-3 w-6 h-6 rounded-full bg-teal-500 shadow-[0_0_10px_rgba(20,184,166,0.8)]"
+                 className="absolute -top-3 -left-3 w-6 h-6 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]"
                  animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 2, repeat: Infinity }}
                />
-               <motion.div 
-                 className="absolute top-8 right-0 w-4 h-4 rounded-full bg-teal-500/50"
-               />
-               <motion.div 
-                 className="absolute bottom-0 left-8 w-4 h-4 rounded-full bg-teal-500/50"
-               />
-               <span className="text-[10px] text-teal-500 font-mono tracking-widest absolute -top-8 -left-8">V1 (84% WIN)</span>
+               <motion.div className="absolute top-8 right-0 w-4 h-4 rounded-full bg-emerald-500/50" />
+               <motion.div className="absolute bottom-0 left-8 w-4 h-4 rounded-full bg-emerald-500/50" />
+               <span className="text-[10px] text-emerald-500 font-mono tracking-widest absolute -top-8 -left-8">V1 (84% WIN)</span>
                <span className="text-[10px] text-zinc-500 font-mono tracking-widest absolute top-6 -right-6">V2.1 (MUTATED)</span>
                <span className="text-[10px] text-zinc-500 font-mono tracking-widest absolute -bottom-6 left-4">V2.2 (MUTATED)</span>
             </div>
@@ -184,20 +180,20 @@ export function AIBoardroom() {
         </motion.div>
 
         {/* Zero-Day Churn Reversal */}
-        <motion.div variants={item} className="lg:col-span-4 rounded-2xl border border-black/5 dark:border-white/10 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-xl p-6">
+        <motion.div variants={item} className="lg:col-span-4 rounded-2xl border border-white/10 bg-[#121212] p-6">
           <div className="flex items-center gap-3 mb-4">
-            <MessageSquareWarning className="w-5 h-5 text-red-500" />
-            <h2 className="text-lg font-bold text-slate-900 dark:text-white">Zero-Day Churn Reversal</h2>
+            <MessageSquareWarning className="w-5 h-5 text-rose-500" />
+            <h2 className="text-lg font-bold text-white">Zero-Day Churn Reversal</h2>
           </div>
-          <p className="text-xs text-slate-500 dark:text-zinc-400 mb-4">
+          <p className="text-xs text-zinc-400 mb-4">
             Live AI interception when users click 'Cancel'.
           </p>
           <div className="space-y-2 relative h-32 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/40 to-transparent z-10" />
-            <div className="p-3 bg-red-500/5 border border-red-500/20 rounded-lg">
-              <span className="text-[10px] font-bold text-red-500 block mb-1">INTERCEPT: user@acme.com</span>
-              <span className="text-xs text-slate-700 dark:text-zinc-300">"It's too expensive right now."</span>
-              <div className="mt-2 text-[10px] text-green-500 font-mono">
+            <div className="p-3 bg-rose-500/5 border border-rose-500/20 rounded-lg">
+              <span className="text-[10px] font-bold text-rose-500 block mb-1">INTERCEPT: user@acme.com</span>
+              <span className="text-xs text-zinc-300">"It's too expensive right now."</span>
+              <div className="mt-2 text-[10px] text-emerald-500 font-mono">
                 {">"} AI offered 50% off for 3 months. <br/>
                 {">"} Saved $499 MRR.
               </div>
