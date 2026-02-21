@@ -37,6 +37,7 @@ import { LeadsDashboardPremium } from "./pages/dashboard/premium/LeadsDashboardP
 import { ClientsDashboardPremium } from "./pages/dashboard/premium/ClientsDashboardPremium";
 import { FinancialDashboardPremium } from "./pages/dashboard/premium/FinancialDashboardPremium";
 import { WhatsAppDashboardPremium } from "./pages/dashboard/premium/WhatsAppDashboardPremium";
+import { AgentsDashboardPremium } from "./pages/dashboard/premium/AgentsDashboardPremium";
 
 export default function App() {
   return (
@@ -59,6 +60,7 @@ export default function App() {
         <Route path="/premium/clients" element={<AppLayout><ClientsDashboardPremium /></AppLayout>} />
         <Route path="/premium/financial" element={<AppLayout><FinancialDashboardPremium /></AppLayout>} />
         <Route path="/premium/whatsapp" element={<AppLayout><WhatsAppDashboardPremium /></AppLayout>} />
+        <Route path="/premium/agents" element={<AppLayout><AgentsDashboardPremium /></AppLayout>} />
 
         <Route path="/innovation/warfare" element={<AppLayout><AgentWarfare /></AppLayout>} />
         <Route path="/innovation/growth" element={<AppLayout><GrowthEngines /></AppLayout>} />

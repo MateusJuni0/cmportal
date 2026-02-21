@@ -76,8 +76,10 @@ export interface WhatsAppAccount {
 
 export interface LogEntry {
   id: string;
-  timestamp: Date;
-  level: 'info' | 'warning' | 'error' | 'success';
+  timestamp: Date | string;
+  level: 'info' | 'warning' | 'error' | 'success' | 'debug';
   message: string;
+  agent?: string;
   agentId?: string;
+  data?: any;
 }

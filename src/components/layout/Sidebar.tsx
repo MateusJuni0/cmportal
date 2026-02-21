@@ -51,6 +51,7 @@ const settingsItems = [
 ];
 
 const premiumItems = [
+  { name: "Neural Network", path: "/premium/agents", icon: Bot },
   { name: "Financial Elite", path: "/premium/financial", icon: DollarSign },
   { name: "WhatsApp Warming", path: "/premium/whatsapp", icon: MessageSquare },
   { name: "Leads Sniper V2", path: "/premium/leads", icon: Target },

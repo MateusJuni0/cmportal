@@ -5,14 +5,17 @@ import { AppState } from '../index';
 
 export interface AgentsSlice {
   agents: Agent[];
+  selectedAgent: Agent | null;
   addAgent: (agent: Omit<Agent, "id" | "createdAt">) => void;
   updateAgent: (id: string, updates: Partial<Agent>) => void;
   deleteAgent: (id: string) => void;
+  selectAgent: (agent: Agent | null) => void;
   toggleAgentStatus: (id: string) => void;
 }
 
 export const createAgentsSlice: StateCreator<AppState, [], [], AgentsSlice> = (set, get) => ({
   agents: mockAgents as Agent[],
+  selectedAgent: null,
   addAgent: (agentData) => {
     const newAgent: Agent = { 
       ...agentData, 
@@ -30,6 +33,7 @@ export const createAgentsSlice: StateCreator<AppState, [], [], AgentsSlice> = (s
     set((state) => ({ agents: state.agents.filter(a => a.id !== id) }));
     if (agent) get().addLog(`Agente deletado: ${agent.name}`, 'warning');
   },
+  selectAgent: (agent) => set({ selectedAgent: agent }),
   toggleAgentStatus: (id) => set((state) => ({
     agents: state.agents.map(a => a.id === id ? { ...a, status: a.status === 'online' ? 'offline' : 'online' } : a)
   })),
