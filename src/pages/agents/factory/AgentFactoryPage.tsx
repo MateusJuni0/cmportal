@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Bot, Sparkles, X, Code2, Activity, Database, Brain } from "lucide-react";
 import { cn } from "@/utils/cn";
 import { useAppStore } from "@/store";
@@ -42,6 +41,7 @@ export function AgentFactory() {
 
   return (
     <div className="max-w-7xl mx-auto h-full flex flex-col gap-8 pb-12">
+      {/* Header Section */}
       <div className="flex justify-between items-end">
         <div>
           <h1 className="text-3xl font-bold tracking-tight mb-2 text-white">Agent Factory</h1>
@@ -58,93 +58,88 @@ export function AgentFactory() {
         )}
       </div>
 
-      <AnimatePresence>
-        {isCreating && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="mb-8 rounded-2xl border border-[#2A2A2A] bg-[#121212] shadow-2xl overflow-hidden"
-          >
-            <div className="p-6 md:p-8 space-y-6">
-              <div className="flex justify-between items-center border-b border-white/5 pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-indigo-500/10 rounded-lg">
-                    <Bot className="w-6 h-6 text-indigo-500" />
-                  </div>
-                  <h2 className="text-xl font-bold text-white uppercase tracking-tight">Configurar Novo Agente</h2>
+      {/* Manual Form (No Framer Motion to prevent crashes) */}
+      {isCreating && (
+        <div className="mb-8 rounded-2xl border border-[#2A2A2A] bg-[#1A1A1A] shadow-2xl block">
+          <div className="p-6 md:p-8 space-y-6">
+            <div className="flex justify-between items-center border-b border-white/5 pb-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-indigo-500/10 rounded-lg">
+                  <Bot className="w-6 h-6 text-indigo-500" />
                 </div>
-                <button onClick={() => setIsCreating(false)} className="p-2 hover:bg-white/5 rounded-lg transition-colors">
-                  <X className="w-5 h-5 text-zinc-500" />
-                </button>
+                <h2 className="text-xl font-bold text-white uppercase tracking-tight">Configurar Novo Agente</h2>
               </div>
+              <button onClick={() => setIsCreating(false)} className="p-2 hover:bg-white/5 rounded-lg transition-colors">
+                <X className="w-5 h-5 text-zinc-500" />
+              </button>
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest px-1">Nome do Agente</label>
-                  <input 
-                    value={name} 
-                    onChange={(e) => setName(e.target.value)} 
-                    placeholder="Ex: Alpha-1" 
-                    className="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-white focus:border-indigo-500 outline-none transition-colors" 
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest px-1">Função Primária</label>
-                  <input 
-                    value={role} 
-                    onChange={(e) => setRole(e.target.value)} 
-                    placeholder="Ex: Prospecção B2B" 
-                    className="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-white focus:border-indigo-500 outline-none transition-colors" 
-                  />
-                </div>
-                <div className="md:col-span-2 space-y-2">
-                  <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest px-1">Personalidade & Tom de Voz</label>
-                  <input 
-                    value={personality} 
-                    onChange={(e) => setPersonality(e.target.value)} 
-                    placeholder="Ex: Profissional, direto e focado em ROI" 
-                    className="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-white focus:border-indigo-500 outline-none transition-colors" 
-                  />
-                </div>
-                
-                <div className="md:col-span-2 space-y-3 pt-2">
-                  <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest px-1">Módulos de Habilidade</label>
-                  <div className="flex flex-wrap gap-2">
-                    {SKILL_OPTIONS.map(skill => (
-                      <button 
-                        key={skill.id} 
-                        type="button"
-                        onClick={() => toggleSkill(skill.label)} 
-                        className={cn(
-                          "px-4 py-2 rounded-lg text-xs font-bold border transition-all flex items-center gap-2", 
-                          selectedSkills.includes(skill.label) 
-                            ? "bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-500/20" 
-                            : "bg-black/20 border-white/10 text-zinc-500 hover:border-white/30"
-                        )}
-                      >
-                        <skill.icon className="w-3.5 h-3.5" />
-                        {skill.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest px-1">Nome do Agente</label>
+                <input 
+                  value={name} 
+                  onChange={(e) => setName(e.target.value)} 
+                  placeholder="Ex: Alpha-1" 
+                  className="w-full bg-[#0A0A0A] border border-white/10 rounded-xl p-4 text-white focus:border-indigo-500 outline-none transition-colors" 
+                />
               </div>
-
-              <div className="pt-4">
-                <button 
-                  onClick={handleCreateAgent} 
-                  className="w-full py-4 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all flex items-center justify-center gap-2 shadow-xl shadow-indigo-500/10 active:scale-[0.98]"
-                >
-                  <Sparkles className="w-5 h-5" />
-                  Sintetizar Agente Autônomo
-                </button>
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest px-1">Função Primária</label>
+                <input 
+                  value={role} 
+                  onChange={(e) => setRole(e.target.value)} 
+                  placeholder="Ex: Prospecção B2B" 
+                  className="w-full bg-[#0A0A0A] border border-white/10 rounded-xl p-4 text-white focus:border-indigo-500 outline-none transition-colors" 
+                />
+              </div>
+              <div className="md:col-span-2 space-y-2">
+                <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest px-1">Personalidade & Tom de Voz</label>
+                <input 
+                  value={personality} 
+                  onChange={(e) => setPersonality(e.target.value)} 
+                  placeholder="Ex: Profissional, direto e focado em ROI" 
+                  className="w-full bg-[#0A0A0A] border border-white/10 rounded-xl p-4 text-white focus:border-indigo-500 outline-none transition-colors" 
+                />
+              </div>
+              
+              <div className="md:col-span-2 space-y-3 pt-2">
+                <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest px-1">Módulos de Habilidade</label>
+                <div className="flex flex-wrap gap-2">
+                  {SKILL_OPTIONS.map(skill => (
+                    <button 
+                      key={skill.id} 
+                      type="button"
+                      onClick={() => toggleSkill(skill.label)} 
+                      className={cn(
+                        "px-4 py-2 rounded-lg text-xs font-bold border transition-all flex items-center gap-2", 
+                        selectedSkills.includes(skill.label) 
+                          ? "bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-500/20" 
+                          : "bg-black/40 border-white/10 text-zinc-500 hover:border-white/30"
+                      )}
+                    >
+                      <skill.icon className="w-3.5 h-3.5" />
+                      {skill.label}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
+            <div className="pt-4 border-t border-white/5">
+              <button 
+                onClick={handleCreateAgent} 
+                className="w-full py-4 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all flex items-center justify-center gap-2 shadow-xl shadow-indigo-500/10 active:scale-[0.98]"
+              >
+                <Sparkles className="w-5 h-5" />
+                Sintetizar Agente Autônomo
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Agents Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {agents.map((agent) => (
           <div key={agent.id} className="bg-[#121212] rounded-2xl p-6 border border-white/10 flex flex-col gap-6 group hover:border-indigo-500/50 transition-all duration-300">
