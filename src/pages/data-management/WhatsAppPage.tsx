@@ -67,10 +67,10 @@ const warmingProgressData = [
 ];
 
 export function WhatsAppPage() {
-  const { whatsappAccounts } = useAppStore();
+  const { whatsappAccounts = [] } = useAppStore();
   
-  const totalSent = whatsappAccounts.reduce((acc, a) => acc + a.messagesSent, 0);
-  const totalReceived = whatsappAccounts.reduce((acc, a) => acc + a.messagesReceived, 0);
+  const totalSent = whatsappAccounts.reduce((acc, a) => acc + (a.messagesSent || 0), 0);
+  const totalReceived = whatsappAccounts.reduce((acc, a) => acc + (a.messagesReceived || 0), 0);
   const activeAccounts = whatsappAccounts.filter(a => a.status === 'active').length;
   const warmingAccounts = whatsappAccounts.filter(a => a.status === 'warming').length;
   

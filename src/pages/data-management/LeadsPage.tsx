@@ -41,11 +41,13 @@ function getScoreColor(score: number): 'success' | 'warning' | 'destructive' | '
 }
 
 export function LeadsPage() {
-  const { filteredLeads, leadFilters, setLeadFilters } = useAppStore();
+  const { filteredLeads = [], leadFilters, setLeadFilters } = useAppStore();
   
   const totalLeads = filteredLeads.length;
-  const avgScore = Math.round(filteredLeads.reduce((acc, lead) => acc + lead.score, 0) / totalLeads || 0);
-  const highIntentLeads = filteredLeads.filter(l => l.score >= 70).length;
+  const avgScore = totalLeads > 0 
+    ? Math.round(filteredLeads.reduce((acc, lead) => acc + (lead.score || 0), 0) / totalLeads) 
+    : 0;
+  const highIntentLeads = filteredLeads.filter(l => (l.score || 0) >= 70).length;
   
   return (
     <div className="space-y-6 animate-in fade-in duration-500">

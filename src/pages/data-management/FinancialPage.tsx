@@ -43,16 +43,17 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 export function FinancialPage() {
-  const { financialData } = useAppStore();
+  const { financialData = [] } = useAppStore();
   
-  const totalRevenue = financialData.reduce((acc, d) => acc + d.revenue, 0);
-  const totalCosts = financialData.reduce((acc, d) => acc + d.costs, 0);
-  const totalProfit = financialData.reduce((acc, d) => acc + d.profit, 0);
-  const totalApiCosts = financialData.reduce((acc, d) => acc + d.apiCosts, 0);
+  const totalRevenue = financialData.reduce((acc, d) => acc + (d.revenue || 0), 0);
+  const totalCosts = financialData.reduce((acc, d) => acc + (d.costs || 0), 0);
+  const totalProfit = financialData.reduce((acc, d) => acc + (d.profit || 0), 0);
+  const totalApiCosts = financialData.reduce((acc, d) => acc + (d.apiCosts || 0), 0);
   
-  const lastMonth = financialData[financialData.length - 1] || { revenue: 0 };
-  const prevMonth = financialData[financialData.length - 2] || { revenue: 1 };
-  const revenueGrowth = (((lastMonth.revenue - prevMonth.revenue) / (prevMonth.revenue || 1)) * 100).toFixed(1);
+  const hasData = financialData.length > 0;
+  const lastMonth = hasData ? financialData[financialData.length - 1] : { revenue: 0 };
+  const prevMonth = financialData.length > 1 ? financialData[financialData.length - 2] : { revenue: 1 };
+  const revenueGrowth = hasData ? (((lastMonth.revenue - prevMonth.revenue) / (prevMonth.revenue || 1)) * 100).toFixed(1) : "0";
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">

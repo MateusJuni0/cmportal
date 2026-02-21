@@ -52,8 +52,8 @@ const settingsItems = [
 
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const location = useLocation();
-
-    const { setClientFilters, setLeadFilters } = useAppStore();
+  const setClientFilters = useAppStore((state) => state.setClientFilters);
+  const setLeadFilters = useAppStore((state) => state.setLeadFilters);
 
   const renderLink = (item: any) => {
     const isActive = location.pathname === item.path;
