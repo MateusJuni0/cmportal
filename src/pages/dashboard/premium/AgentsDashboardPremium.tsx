@@ -25,7 +25,7 @@ import {
 import { Card, CardContent } from './components/CardPremium';
 import { Badge } from './components/BadgePremium';
 import { LiveLogTerminal } from '../../../components/common/LiveLogTerminal';
-import { useStore } from '../../../store';
+import { useAppStore } from '../../../store';
 import { cn } from '../../../utils/cn';
 
 const neuralData = [
@@ -39,7 +39,7 @@ const neuralData = [
 ];
 
 export function AgentsDashboardPremium() {
-  const { agents, logs, toggleAgentStatus } = useStore();
+  const { agents, logs, toggleAgentStatus } = useAppStore();
 
   return (
     <div className="space-y-6 p-6 animate-in fade-in slide-in-from-right-4 duration-700">
