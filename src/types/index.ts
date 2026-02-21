@@ -19,6 +19,7 @@ export interface TrainingFile {
   size: string;
   type: "pdf" | "url" | "text";
   status: 'pending' | 'processing' | 'completed' | 'error';
+  progress: number;
   uploadedAt: Date;
 }
 
@@ -27,7 +28,7 @@ export interface GeneratedContent {
   type: 'image' | 'copy' | 'video';
   prompt: string;
   result: string;
-  status: 'completed' | 'failed';
+  status: 'generating' | 'completed' | 'failed';
   createdAt: Date;
 }
 

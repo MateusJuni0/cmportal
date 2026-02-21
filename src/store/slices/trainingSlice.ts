@@ -16,7 +16,13 @@ export const createTrainingSlice: StateCreator<AppState, [], [], TrainingSlice> 
   trainingStatus: 'idle',
   trainingProgress: 0,
   addTrainingFile: (file) => set((state) => ({
-    trainingFiles: [...state.trainingFiles, { ...file, id: Math.random().toString(36).substr(2, 9), uploadedAt: new Date(), status: 'pending' }]
+    trainingFiles: [...state.trainingFiles, { 
+      ...file, 
+      id: Math.random().toString(36).substr(2, 9), 
+      uploadedAt: new Date(), 
+      status: 'pending',
+      progress: 0 
+    }]
   })),
   removeTrainingFile: (id) => set((state) => ({
     trainingFiles: state.trainingFiles.filter(f => f.id !== id)
@@ -34,14 +40,19 @@ export const createTrainingSlice: StateCreator<AppState, [], [], TrainingSlice> 
         set((state) => ({ 
           trainingStatus: 'success', 
           trainingProgress: 100,
-          trainingFiles: state.trainingFiles.map(f => ({ ...f, status: 'completed' }))
+          trainingFiles: state.trainingFiles.map(f => ({ ...f, status: 'completed', progress: 100 }))
         }));
         get().addLog('Treinamento de IA concluído com sucesso.', 'success');
       } else {
+        const status = currentProgress > 40 ? 'processing' : 'uploading';
         set((state) => ({ 
           trainingProgress: Math.floor(currentProgress),
-          trainingStatus: currentProgress > 40 ? 'processing' : 'uploading',
-          trainingFiles: state.trainingFiles.map(f => ({ ...f, status: currentProgress > 40 ? 'processing' : 'pending' }))
+          trainingStatus: status,
+          trainingFiles: state.trainingFiles.map(f => ({ 
+            ...f, 
+            status: currentProgress > 40 ? 'processing' : 'pending',
+            progress: Math.floor(currentProgress)
+          }))
         }));
       }
     }, 400);
