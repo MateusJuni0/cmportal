@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { cn } from "../../utils/cn";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAppStore } from "../../store";
 
 interface SidebarProps {
   isOpen: boolean;

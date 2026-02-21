@@ -1,6 +1,6 @@
 import { Bell, Menu } from "lucide-react";
-import { DeployButton } from "@/components/common/DeployButton";
-import { GlobalSearch } from "@/components/common/GlobalSearch";
+import { DeployButton } from "../common/DeployButton";
+import { GlobalSearch } from "../common/GlobalSearch";
 
 interface HeaderProps {
   onOpenSidebar: () => void;
