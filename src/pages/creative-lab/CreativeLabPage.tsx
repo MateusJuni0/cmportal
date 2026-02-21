@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Image as ImageIcon, FileText, Video, Sparkles, Loader2, Download, Copy as CopyIcon } from "lucide-react";
+import { Image as ImageIcon, FileText, Video, Sparkles, Loader2, Download, Copy as CopyIcon, Wand2 } from "lucide-react";
 import { cn } from "@/utils/cn";
 
 type Tab = "image" | "copy" | "video";
@@ -22,7 +22,6 @@ export function CreativeLab() {
     setIsGenerating(true);
     setResult(null);
 
-    // Simulate AI generation delay
     setTimeout(() => {
       setIsGenerating(false);
       if (activeTab === "image") {
@@ -36,15 +35,22 @@ export function CreativeLab() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto h-full flex flex-col gap-8">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight mb-2">Multimodal Creative Lab</h1>
-        <p className="text-slate-500 dark:text-zinc-400">
-          Gere ativos de prospecção hiper-personalizados usando IA generativa avançada.
-        </p>
+    <div className="max-w-7xl mx-auto h-full flex flex-col gap-8 pb-12">
+      <div className="flex justify-between items-end">
+        <div className="space-y-1">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-purple-500/20 rounded-lg border border-purple-500/30">
+              <Wand2 className="w-6 h-6 text-purple-400" />
+            </div>
+            <h1 className="text-4xl font-black tracking-tight text-white uppercase italic">
+              Creative <span className="text-purple-500">Lab</span>
+            </h1>
+          </div>
+          <p className="text-zinc-500 font-medium ml-12">Geração de ativos de prospecção hiper-personalizados.</p>
+        </div>
       </div>
 
-      <div className="flex gap-2 p-1 bg-black/5 dark:bg-white/5 backdrop-blur-md rounded-2xl w-fit border border-black/5 dark:border-white/10 p-1">
+      <div className="flex gap-2 p-1 bg-[#1A1A1A] rounded-2xl w-fit border border-white/5">
         {TABS.map((tab) => {
           const isActive = activeTab === tab.id;
           const Icon = tab.icon;
@@ -57,18 +63,18 @@ export function CreativeLab() {
                 setPrompt("");
               }}
               className={cn(
-                "relative px-4 py-2.5 rounded-xl text-sm font-medium transition-colors flex items-center gap-2 outline-none",
-                isActive ? "text-slate-900 dark:text-white" : "text-slate-500 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white"
+                "relative px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 outline-none",
+                isActive ? "text-white" : "text-zinc-500 hover:text-zinc-300"
               )}
             >
               {isActive && (
                 <motion.div
                   layoutId="creative-lab-tabs"
-                  className="absolute inset-0 bg-white dark:bg-zinc-800 shadow-sm border border-black/5 dark:border-white/5 rounded-xl z-0"
+                  className="absolute inset-0 bg-zinc-800 rounded-xl z-0 border border-white/10"
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
               )}
-              <Icon className="w-4 h-4 relative z-10" />
+              <Icon className="w-3.5 h-3.5 relative z-10" />
               <span className="relative z-10">{tab.label}</span>
             </button>
           );
@@ -77,56 +83,54 @@ export function CreativeLab() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 flex-1 min-h-0">
         {/* Input Form Section */}
-        <div className="glass-card flex flex-col p-6 gap-6 h-full">
-          <div>
-            <h2 className="text-xl font-semibold mb-1">O que vamos criar?</h2>
-            <p className="text-sm text-slate-500 dark:text-zinc-400">
-              Descreva detalhadamente o ativo que deseja gerar para sua campanha.
-            </p>
+        <div className="bg-[#0A0A0A] border border-white/5 p-8 rounded-[2rem] shadow-2xl flex flex-col gap-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 blur-[50px] rounded-full" />
+          
+          <div className="relative z-10">
+            <h2 className="text-xl font-bold text-white uppercase tracking-tight italic mb-2">Engenharia de Prompt</h2>
+            <p className="text-xs text-zinc-500 uppercase tracking-widest font-bold">Defina o ativo que deseja sintetizar</p>
           </div>
 
-          <div className="flex-1 flex flex-col gap-4">
+          <div className="flex-1 flex flex-col gap-4 relative z-10">
             <textarea
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder={
                 activeTab === "image"
-                  ? "Ex: Uma imagem profissional de um dashboard de vendas com gráficos neon, fundo escuro luxuoso..."
+                  ? "Ex: Uma imagem profissional de um dashboard de vendas com gráficos neon..."
                   : activeTab === "copy"
-                  ? "Ex: Um email de prospecção curto, tom persuasivo, para diretores de vendas de empresas de tecnologia..."
-                  : "Ex: Um script de vídeo de 30 segundos oferecendo nossa solução de IA para reduzir churn..."
+                  ? "Ex: Um email de prospecção curto, tom persuasivo..."
+                  : "Ex: Um script de vídeo de 30 segundos oferecendo nossa solução..."
               }
-              className="flex-1 w-full bg-black/5 dark:bg-zinc-900/50 border border-black/10 dark:border-white/10 rounded-2xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:focus:ring-[var(--color-neon-blue)] transition-all resize-none placeholder:text-slate-400 dark:placeholder:text-zinc-600 shadow-inner"
+              className="flex-1 w-full bg-black/40 border border-white/10 rounded-2xl p-6 text-sm text-white focus:border-purple-500 outline-none transition-all resize-none placeholder:text-zinc-700 shadow-inner leading-relaxed"
             />
           </div>
 
           <button
             onClick={handleGenerate}
             disabled={!prompt.trim() || isGenerating}
-            className="w-full relative group overflow-hidden rounded-xl bg-brand-600 dark:bg-zinc-800 text-white font-medium p-[1px] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-5 bg-purple-600 hover:bg-purple-500 text-white font-black text-[11px] uppercase tracking-[0.3em] rounded-2xl shadow-xl shadow-purple-500/10 flex items-center justify-center gap-3 transition-all active:scale-[0.98] relative z-10 disabled:opacity-50"
           >
-            <span className="absolute inset-0 bg-gradient-to-r from-brand-400 to-brand-600 dark:from-[var(--color-neon-blue)] dark:to-[var(--color-neon-purple)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
-            <div className="relative bg-brand-600 dark:bg-zinc-900 px-4 py-3 rounded-xl flex items-center justify-center gap-2">
-              {isGenerating ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin text-white dark:text-[var(--color-neon-blue)]" />
-                  <span>Sintetizando...</span>
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-5 h-5 text-white dark:text-[var(--color-neon-blue)]" />
-                  <span>Gerar Ativo</span>
-                </>
-              )}
-            </div>
+            {isGenerating ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                <span>Sintetizando Ativo...</span>
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-5 h-5" />
+                <span>Gerar Ativo com IA</span>
+              </>
+            )}
           </button>
         </div>
 
         {/* Preview Section */}
-        <div className="glass-card p-6 h-full flex flex-col">
-          <h2 className="text-xl font-semibold mb-6">Preview</h2>
+        <div className="bg-[#0A0A0A] border border-white/5 p-8 rounded-[2rem] shadow-2xl flex flex-col relative overflow-hidden">
+          <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/5 blur-[50px] rounded-full" />
+          <h2 className="text-xl font-bold text-white uppercase tracking-tight italic mb-8 relative z-10">Live Preview</h2>
           
-          <div className="flex-1 bg-black/5 dark:bg-zinc-900/50 rounded-2xl border border-black/10 dark:border-white/5 flex items-center justify-center p-4 relative overflow-hidden shadow-inner">
+          <div className="flex-1 bg-black rounded-3xl border border-white/5 flex items-center justify-center p-6 relative overflow-hidden shadow-2xl z-10">
             <AnimatePresence mode="wait">
               {isGenerating ? (
                 <motion.div
@@ -134,14 +138,14 @@ export function CreativeLab() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
-                  className="flex flex-col items-center gap-4"
+                  className="flex flex-col items-center gap-6"
                 >
                   <div className="relative">
-                    <div className="w-16 h-16 border-4 border-brand-500/30 dark:border-[var(--color-neon-blue)]/30 rounded-full animate-pulse" />
-                    <div className="w-16 h-16 border-4 border-brand-500 dark:border-[var(--color-neon-blue)] rounded-full border-t-transparent animate-spin absolute inset-0" />
+                    <div className="w-20 h-20 border-[6px] border-purple-500/20 rounded-full animate-pulse" />
+                    <div className="w-20 h-20 border-[6px] border-purple-500 rounded-full border-t-transparent animate-spin absolute inset-0 shadow-[0_0_20px_rgba(168,85,247,0.4)]" />
                   </div>
-                  <p className="text-sm font-medium text-slate-500 dark:text-zinc-400 animate-pulse">
-                    Processando com IA...
+                  <p className="text-[10px] font-black text-purple-400 uppercase tracking-[0.3em] animate-pulse">
+                    Generating...
                   </p>
                 </motion.div>
               ) : result ? (
@@ -152,29 +156,29 @@ export function CreativeLab() {
                   className="w-full h-full flex flex-col"
                 >
                   {activeTab === "image" && (
-                    <div className="w-full h-full relative group rounded-xl overflow-hidden">
-                      <img src={result} alt="Generated" className="w-full h-full object-cover rounded-xl" />
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4 backdrop-blur-sm">
-                        <button className="p-3 bg-white/10 hover:bg-white/20 rounded-full text-white backdrop-blur-md transition-colors">
-                          <Download className="w-5 h-5" />
+                    <div className="w-full h-full relative group rounded-2xl overflow-hidden">
+                      <img src={result} alt="Generated" className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                        <button className="p-4 bg-white text-black rounded-full shadow-2xl hover:scale-110 transition-transform">
+                          <Download className="w-6 h-6" />
                         </button>
                       </div>
                     </div>
                   )}
                   {activeTab === "copy" && (
-                    <div className="w-full h-full text-left p-6 bg-white dark:bg-zinc-800 rounded-xl shadow-sm border border-black/5 dark:border-white/5 overflow-y-auto font-mono text-sm leading-relaxed whitespace-pre-wrap">
+                    <div className="w-full h-full text-left p-8 bg-[#121212] rounded-2xl border border-white/5 overflow-y-auto font-mono text-xs leading-relaxed text-zinc-300 relative">
                       {result}
-                      <button className="absolute top-8 right-8 p-2 bg-slate-100 dark:bg-zinc-700 hover:bg-slate-200 dark:hover:bg-zinc-600 rounded-lg text-slate-600 dark:text-zinc-300 transition-colors">
+                      <button className="absolute top-6 right-6 p-2 bg-white/5 hover:bg-white/10 rounded-lg text-zinc-400 transition-colors">
                         <CopyIcon className="w-4 h-4" />
                       </button>
                     </div>
                   )}
                   {activeTab === "video" && (
-                    <div className="w-full h-full flex items-center justify-center bg-black/90 rounded-xl relative">
-                      <div className="w-16 h-16 bg-brand-500/20 rounded-full flex items-center justify-center pl-1 backdrop-blur-md border border-brand-500/50 text-brand-500 cursor-pointer hover:scale-110 transition-transform">
+                    <div className="w-full h-full flex items-center justify-center bg-zinc-900 rounded-2xl relative border border-white/5">
+                      <div className="w-20 h-20 bg-purple-500/10 rounded-full flex items-center justify-center border border-purple-500/30 text-purple-500 cursor-pointer hover:scale-110 transition-transform shadow-[0_0_30px_rgba(168,85,247,0.2)]">
                         <Video className="w-8 h-8" />
                       </div>
-                      <p className="absolute bottom-6 text-xs font-mono text-brand-500/70">video_render_v1.mp4</p>
+                      <p className="absolute bottom-6 text-[9px] font-black text-purple-500/60 uppercase tracking-widest font-mono">render_preview_v8.mp4</p>
                     </div>
                   )}
                 </motion.div>
@@ -183,15 +187,17 @@ export function CreativeLab() {
                   key="empty"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="text-center max-w-sm"
+                  className="text-center space-y-6 max-w-xs"
                 >
-                  <div className="w-16 h-16 bg-black/5 dark:bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-black/5 dark:border-white/5">
-                    <Sparkles className="w-8 h-8 text-slate-400 dark:text-zinc-500" />
+                  <div className="w-20 h-20 bg-white/5 rounded-[2rem] flex items-center justify-center mx-auto border border-white/10">
+                    <Sparkles className="w-8 h-8 text-zinc-700" />
                   </div>
-                  <h3 className="text-lg font-medium mb-2">Aguardando instruções</h3>
-                  <p className="text-sm text-slate-500 dark:text-zinc-500">
-                    Descreva o que você deseja criar no formulário ao lado e deixe a IA fazer a mágica.
-                  </p>
+                  <div className="space-y-2">
+                    <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-widest">Sistemas em Espera</h3>
+                    <p className="text-[10px] text-zinc-600 font-medium uppercase leading-relaxed tracking-wider">
+                      Defina os parâmetros do ativo ao lado para iniciar a síntese.
+                    </p>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
