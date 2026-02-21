@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Globe, Crosshair, TrendingUp, Brain, Ghost, Activity, Eye, Zap, Search } from "lucide-react";
-import { cn } from "@/utils/cn";
+import { cn } from "../../utils/cn";
 
 const container = {
   hidden: { opacity: 0 },

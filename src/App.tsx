@@ -1,36 +1,36 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { AppLayout } from "@/components/layout/AppLayout";
-import { Hero3D } from "@/modules/VisualTrust/Hero3D";
+import { AppLayout } from "./components/layout/AppLayout";
+import { Hero3D } from "./modules/VisualTrust/Hero3D";
 
 // Core
-import { Dashboard } from "@/pages/dashboard/DashboardPage";
-import { AgentFactory } from "@/pages/agents/factory/AgentFactoryPage";
-import { LiveLogTerminalPage } from "@/pages/agents/logs/LogsPage";
-import { CreativeLab } from "@/pages/creative-lab/CreativeLabPage";
-import { AuthPage } from "@/pages/auth/AuthPage";
+import { Dashboard } from "./pages/dashboard/DashboardPage";
+import { AgentFactory } from "./pages/agents/factory/AgentFactoryPage";
+import { LiveLogTerminalPage } from "./pages/agents/logs/LogsPage";
+import { CreativeLab } from "./pages/creative-lab/CreativeLabPage";
+import { AuthPage } from "./pages/auth/AuthPage";
 
 // Innovation
-import { AgentWarfare } from "@/pages/innovation/AgentWarfare";
-import { GrowthEngines } from "@/pages/innovation/GrowthEngines";
-import { MarketIntelligence } from "@/pages/innovation/MarketIntelligence";
+import { AgentWarfare } from "./pages/innovation/AgentWarfare";
+import { GrowthEngines } from "./pages/innovation/GrowthEngines";
+import { MarketIntelligence } from "./pages/innovation/MarketIntelligence";
 
 // Nexus
-import { AIBoardroom } from "@/pages/nexus/AIBoardroom";
-import { OmniscienceGrid } from "@/pages/nexus/OmniscienceGrid";
-import { QuantumTreasury } from "@/pages/nexus/QuantumTreasury";
+import { AIBoardroom } from "./pages/nexus/AIBoardroom";
+import { OmniscienceGrid } from "./pages/nexus/OmniscienceGrid";
+import { QuantumTreasury } from "./pages/nexus/QuantumTreasury";
 
 // Systems
-import { VisualSiteEditor } from "@/pages/cms/CMSPage";
-import { LandingPageBuilder } from "@/pages/lp-builder/LPBuilderPage";
-import { AiTraining } from "@/pages/ai-training/AITrainingPage";
-import { SceneCustomizer } from "@/pages/settings/3d-customizer/ThreeDPage";
-import { GitSyncTool } from "@/pages/settings/git-sync/GitSyncPage";
+import { VisualSiteEditor } from "./pages/cms/CMSPage";
+import { LandingPageBuilder } from "./pages/lp-builder/LPBuilderPage";
+import { AiTraining } from "./pages/ai-training/AITrainingPage";
+import { SceneCustomizer } from "./pages/settings/3d-customizer/ThreeDPage";
+import { GitSyncTool } from "./pages/settings/git-sync/GitSyncPage";
 
 // Data Management
-import { LeadsPage } from "@/pages/data-management/LeadsPage";
-import { ClientsPage } from "@/pages/data-management/ClientsPage";
-import { FinancialPage } from "@/pages/data-management/FinancialPage";
-import { WhatsAppPage } from "@/pages/data-management/WhatsAppPage";
+import { LeadsPage } from "./pages/data-management/LeadsPage";
+import { ClientsPage } from "./pages/data-management/ClientsPage";
+import { FinancialPage } from "./pages/data-management/FinancialPage";
+import { WhatsAppPage } from "./pages/data-management/WhatsAppPage";
 
 export default function App() {
   return (
