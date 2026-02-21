@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Image as ImageIcon, FileText, Video, Sparkles, Loader2, Download, Copy as CopyIcon, Wand2 } from "lucide-react";
 import { cn } from "@/utils/cn";
+import { useAppStore } from "@/store";
 
 type Tab = "image" | "copy" | "video";
 
@@ -12,27 +12,8 @@ const TABS: { id: Tab; label: string; icon: any }[] = [
 ];
 
 export function CreativeLab() {
-  const [activeTab, setActiveTab] = useState<Tab>("image");
-  const [prompt, setPrompt] = useState("");
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [result, setResult] = useState<string | null>(null);
-
-  const handleGenerate = () => {
-    if (!prompt.trim()) return;
-    setIsGenerating(true);
-    setResult(null);
-
-    setTimeout(() => {
-      setIsGenerating(false);
-      if (activeTab === "image") {
-        setResult("https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop");
-      } else if (activeTab === "copy") {
-        setResult("Olá, notei que sua empresa tem expandido rapidamente. \n\nDesenvolvemos uma solução focada em otimizar processos de vendas com IA que pode aumentar sua conversão em 30%. \n\nPodemos marcar uma breve call na terça?");
-      } else {
-        setResult("video-placeholder");
-      }
-    }, 2500);
-  };
+  const { creativeLab, setCreativeTab, setCreativePrompt, generateCreativeAsset, clearCreativeHistory } = useAppStore();
+  const { activeTab, prompt, isGenerating, result, history } = creativeLab;
 
   return (
     <div className="max-w-7xl mx-auto h-full flex flex-col gap-8 pb-12">
@@ -57,11 +38,7 @@ export function CreativeLab() {
           return (
             <button
               key={tab.id}
-              onClick={() => {
-                setActiveTab(tab.id);
-                setResult(null);
-                setPrompt("");
-              }}
+              onClick={() => setCreativeTab(tab.id)}
               className={cn(
                 "relative px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 outline-none",
                 isActive ? "text-white" : "text-zinc-500 hover:text-zinc-300"
@@ -83,46 +60,94 @@ export function CreativeLab() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 flex-1 min-h-0">
         {/* Input Form Section */}
-        <div className="bg-[#0A0A0A] border border-white/5 p-8 rounded-[2rem] shadow-2xl flex flex-col gap-8 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 blur-[50px] rounded-full" />
-          
-          <div className="relative z-10">
-            <h2 className="text-xl font-bold text-white uppercase tracking-tight italic mb-2">Engenharia de Prompt</h2>
-            <p className="text-xs text-zinc-500 uppercase tracking-widest font-bold">Defina o ativo que deseja sintetizar</p>
+        <div className="flex flex-col gap-8">
+          <div className="bg-[#0A0A0A] border border-white/5 p-8 rounded-[2rem] shadow-2xl flex flex-col gap-8 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 blur-[50px] rounded-full" />
+            
+            <div className="relative z-10">
+              <h2 className="text-xl font-bold text-white uppercase tracking-tight italic mb-2">Engenharia de Prompt</h2>
+              <p className="text-xs text-zinc-500 uppercase tracking-widest font-bold">Defina o ativo que deseja sintetizar</p>
+            </div>
+
+            <div className="flex-1 flex flex-col gap-4 relative z-10">
+              <textarea
+                value={prompt}
+                onChange={(e) => setCreativePrompt(e.target.value)}
+                placeholder={
+                  activeTab === "image"
+                    ? "Ex: Uma imagem profissional de um dashboard de vendas com gráficos neon..."
+                    : activeTab === "copy"
+                    ? "Ex: Um email de prospecção curto, tom persuasivo..."
+                    : "Ex: Um script de vídeo de 30 segundos oferecendo nossa solução..."
+                }
+                className="w-full h-32 bg-black/40 border border-white/10 rounded-2xl p-6 text-sm text-white focus:border-purple-500 outline-none transition-all resize-none placeholder:text-zinc-700 shadow-inner leading-relaxed"
+              />
+            </div>
+
+            <button
+              onClick={generateCreativeAsset}
+              disabled={!prompt.trim() || isGenerating}
+              className="w-full py-5 bg-purple-600 hover:bg-purple-500 text-white font-black text-[11px] uppercase tracking-[0.3em] rounded-2xl shadow-xl shadow-purple-500/10 flex items-center justify-center gap-3 transition-all active:scale-[0.98] relative z-10 disabled:opacity-50"
+            >
+              {isGenerating ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span>Sintetizando Ativo...</span>
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-5 h-5" />
+                  <span>Gerar Ativo com IA</span>
+                </>
+              )}
+            </button>
           </div>
 
-          <div className="flex-1 flex flex-col gap-4 relative z-10">
-            <textarea
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              placeholder={
-                activeTab === "image"
-                  ? "Ex: Uma imagem profissional de um dashboard de vendas com gráficos neon..."
-                  : activeTab === "copy"
-                  ? "Ex: Um email de prospecção curto, tom persuasivo..."
-                  : "Ex: Um script de vídeo de 30 segundos oferecendo nossa solução..."
-              }
-              className="flex-1 w-full bg-black/40 border border-white/10 rounded-2xl p-6 text-sm text-white focus:border-purple-500 outline-none transition-all resize-none placeholder:text-zinc-700 shadow-inner leading-relaxed"
-            />
+          {/* History Section */}
+          <div className="bg-[#0A0A0A] border border-white/5 p-6 rounded-[2rem] shadow-2xl flex-1 flex flex-col gap-4 relative overflow-hidden min-h-[300px]">
+             <div className="flex justify-between items-center relative z-10">
+                <h3 className="text-sm font-bold text-white uppercase tracking-widest italic">Histórico de Síntese</h3>
+                <button 
+                  onClick={clearCreativeHistory}
+                  className="text-[9px] text-zinc-600 hover:text-zinc-400 uppercase font-black tracking-tighter transition-colors"
+                >
+                  Limpar Tudo
+                </button>
+             </div>
+             
+             <div className="flex-1 overflow-y-auto space-y-3 pr-2 relative z-10">
+                {history.length === 0 ? (
+                  <div className="h-full flex flex-col items-center justify-center text-zinc-800 gap-2">
+                    <FileText className="w-8 h-8 opacity-20" />
+                    <p className="text-[10px] uppercase font-bold tracking-widest">Nenhum registro</p>
+                  </div>
+                ) : (
+                  history.map((item) => (
+                    <div 
+                      key={item.id}
+                      className="p-4 bg-white/5 border border-white/5 rounded-xl flex items-center justify-between group hover:border-purple-500/30 transition-colors"
+                    >
+                      <div className="flex items-center gap-3 overflow-hidden">
+                        <div className="p-2 bg-zinc-900 rounded-lg text-purple-400">
+                          {item.type === 'image' ? <ImageIcon className="w-3.5 h-3.5" /> : 
+                           item.type === 'video' ? <Video className="w-3.5 h-3.5" /> : 
+                           <FileText className="w-3.5 h-3.5" />}
+                        </div>
+                        <div className="truncate">
+                          <p className="text-[10px] font-bold text-zinc-300 truncate italic">"{item.prompt}"</p>
+                          <p className="text-[8px] text-zinc-600 uppercase font-black tracking-widest">
+                            {new Date(item.createdAt).toLocaleTimeString()} • {item.type}
+                          </p>
+                        </div>
+                      </div>
+                      <button className="opacity-0 group-hover:opacity-100 p-2 text-zinc-400 hover:text-white transition-all">
+                        <Download className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  ))
+                )}
+             </div>
           </div>
-
-          <button
-            onClick={handleGenerate}
-            disabled={!prompt.trim() || isGenerating}
-            className="w-full py-5 bg-purple-600 hover:bg-purple-500 text-white font-black text-[11px] uppercase tracking-[0.3em] rounded-2xl shadow-xl shadow-purple-500/10 flex items-center justify-center gap-3 transition-all active:scale-[0.98] relative z-10 disabled:opacity-50"
-          >
-            {isGenerating ? (
-              <>
-                <Loader2 className="w-5 h-5 animate-spin" />
-                <span>Sintetizando Ativo...</span>
-              </>
-            ) : (
-              <>
-                <Sparkles className="w-5 h-5" />
-                <span>Gerar Ativo com IA</span>
-              </>
-            )}
-          </button>
         </div>
 
         {/* Preview Section */}

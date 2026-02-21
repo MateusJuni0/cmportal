@@ -22,6 +22,15 @@ export interface TrainingFile {
   uploadedAt: Date;
 }
 
+export interface GeneratedContent {
+  id: string;
+  type: 'image' | 'copy' | 'video';
+  prompt: string;
+  result: string;
+  status: 'completed' | 'failed';
+  createdAt: Date;
+}
+
 export interface Lead {
   id: string;
   name: string;

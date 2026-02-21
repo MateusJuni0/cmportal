@@ -2,21 +2,19 @@ import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { UploadCloud, Link as LinkIcon, FileText, Database, CheckCircle, Loader2, Sparkles, X } from "lucide-react";
 import { cn } from "@/utils/cn";
-
-type ProcessingStatus = "idle" | "uploading" | "processing" | "success" | "error";
-
-interface TrainingFile {
-  id: string;
-  name: string;
-  size: string;
-  type: "pdf" | "url";
-}
+import { useAppStore } from "@/store";
 
 export function AiTraining() {
+  const { 
+    trainingFiles, 
+    trainingStatus: status, 
+    trainingProgress: progress, 
+    addTrainingFile, 
+    removeTrainingFile, 
+    startTraining 
+  } = useAppStore();
+  
   const [url, setUrl] = useState("");
-  const [files, setFiles] = useState<TrainingFile[]>([]);
-  const [status, setStatus] = useState<ProcessingStatus>("idle");
-  const [progress, setProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -26,47 +24,14 @@ export function AiTraining() {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      addFile(e.dataTransfer.files[0].name, "pdf");
+      addTrainingFile({ name: e.dataTransfer.files[0].name, type: "pdf", size: "2.4 MB" });
     }
-  };
-
-  const addFile = (name: string, type: "pdf" | "url") => {
-    const newFile: TrainingFile = {
-      id: Math.random().toString(36).substr(2, 9),
-      name,
-      size: type === "pdf" ? "2.4 MB" : "Link Externo",
-      type
-    };
-    setFiles([...files, newFile]);
   };
 
   const handleAddUrl = () => {
     if (!url.trim()) return;
-    addFile(url, "url");
+    addTrainingFile({ name: url, type: "url", size: "Link Externo" });
     setUrl("");
-  };
-
-  const removeFile = (id: string) => {
-    setFiles(files.filter(f => f.id !== id));
-  };
-
-  const handleProcess = () => {
-    if (files.length === 0) return;
-    setStatus("uploading");
-    setProgress(0);
-
-    let currentProgress = 0;
-    const interval = setInterval(() => {
-      currentProgress += Math.random() * 15;
-      if (currentProgress >= 100) {
-        currentProgress = 100;
-        clearInterval(interval);
-        setStatus("success");
-      } else if (currentProgress > 40 && status !== "processing") {
-         setStatus("processing");
-      }
-      setProgress(Math.floor(currentProgress));
-    }, 400);
   };
 
   return (
@@ -86,7 +51,7 @@ export function AiTraining() {
           onClick={() => fileInputRef.current?.click()}
         >
           <input type="file" ref={fileInputRef} className="hidden" accept=".pdf,.doc,.docx" onChange={(e) => {
-            if (e.target.files && e.target.files[0]) addFile(e.target.files[0].name, "pdf");
+            if (e.target.files && e.target.files[0]) addTrainingFile({ name: e.target.files[0].name, type: "pdf", size: "2.4 MB" });
           }} />
           <div className="w-16 h-16 bg-indigo-50 dark:bg-zinc-800/50 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner">
             <UploadCloud className="w-8 h-8 text-indigo-500" />
@@ -129,12 +94,12 @@ export function AiTraining() {
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-semibold flex items-center gap-2 text-slate-900 dark:text-white">
             <Database className="w-5 h-5 text-slate-400" />
-            Base de Conhecimento ({files.length})
+            Base de Conhecimento ({trainingFiles.length})
           </h2>
           
           <button
-            onClick={handleProcess}
-            disabled={files.length === 0 || status === "uploading" || status === "processing"}
+            onClick={startTraining}
+            disabled={trainingFiles.length === 0 || status === "uploading" || status === "processing"}
             className="relative overflow-hidden group rounded-xl bg-indigo-600 px-6 py-2.5 text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transition-transform active:scale-95 shadow-lg shadow-indigo-500/20"
           >
             {status === "uploading" || status === "processing" ? (
@@ -181,13 +146,13 @@ export function AiTraining() {
         </AnimatePresence>
 
         <div className="flex-1 overflow-y-auto space-y-3 pr-2">
-          {files.length === 0 ? (
+          {trainingFiles.length === 0 ? (
             <div className="h-48 flex flex-col items-center justify-center text-slate-400 dark:text-zinc-600 space-y-2">
               <Database className="w-12 h-12 opacity-20" />
               <p>Nenhum dado fornecido ainda.</p>
             </div>
           ) : (
-            files.map((file, index) => (
+            trainingFiles.map((file, index) => (
               <motion.div
                 key={file.id}
                 initial={{ opacity: 0, x: -20 }}
@@ -208,7 +173,7 @@ export function AiTraining() {
                   </div>
                 </div>
                 <button 
-                  onClick={() => removeFile(file.id)}
+                  onClick={() => removeTrainingFile(file.id)}
                   disabled={status === "uploading" || status === "processing"}
                   className="p-1.5 text-slate-400 hover:bg-rose-50 hover:text-rose-500 rounded-md transition-colors"
                 >
