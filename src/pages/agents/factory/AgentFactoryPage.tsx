@@ -59,7 +59,7 @@ export function AgentFactory() {
         {!isCreating && (
           <button
             onClick={() => setIsCreating(true)}
-            className="flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white px-4 py-2.5 rounded-xl text-sm font-medium transition-colors shadow-lg shadow-brand-500/20"
+            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl text-sm font-medium transition-colors shadow-lg shadow-indigo-500/20"
           >
             <Plus className="w-4 h-4" />
             Criar Novo Agente
@@ -75,9 +75,9 @@ export function AgentFactory() {
             exit={{ opacity: 0, y: -20, height: 0 }}
             className="glass-card overflow-hidden"
           >
-            <form onSubmit={handleCreateAgent} className="p-6 md:p-8 space-y-6 border-l-4 border-brand-500 dark:border-[var(--color-neon-blue)]">
+            <form onSubmit={handleCreateAgent} className="p-6 md:p-8 space-y-6 border-l-4 border-indigo-500 dark:border-[var(--color-neon-blue)]">
               <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 bg-brand-100 dark:bg-brand-900/30 rounded-lg text-brand-600 dark:text-[var(--color-neon-blue)]">
+                <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg text-indigo-600 dark:text-[var(--color-neon-blue)]">
                   <Bot className="w-6 h-6" />
                 </div>
                 <h2 className="text-xl font-semibold">Configuração Inicial do Agente</h2>
@@ -91,7 +91,7 @@ export function AgentFactory() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Ex: Clara, Vendedora Senior"
-                    className="w-full bg-slate-50 dark:bg-zinc-900/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all neumorph dark:neumorph"
+                    className="w-full bg-slate-50 dark:bg-zinc-900/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
                     required
                   />
                 </div>
@@ -102,7 +102,7 @@ export function AgentFactory() {
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
                     placeholder="Ex: Especialista em outbound para SaaS"
-                    className="w-full bg-slate-50 dark:bg-zinc-900/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all neumorph dark:neumorph"
+                    className="w-full bg-slate-50 dark:bg-zinc-900/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
                     required
                   />
                 </div>
@@ -113,7 +113,7 @@ export function AgentFactory() {
                     value={personality}
                     onChange={(e) => setPersonality(e.target.value)}
                     placeholder="Ex: Profissional, mas descontraído. Foco em resolver problemas."
-                    className="w-full bg-slate-50 dark:bg-zinc-900/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all neumorph dark:neumorph"
+                    className="w-full bg-slate-50 dark:bg-zinc-900/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
                     required
                   />
                 </div>
@@ -131,7 +131,7 @@ export function AgentFactory() {
                           className={cn(
                             "flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all border",
                             isSelected 
-                              ? "bg-brand-50 dark:bg-brand-900/20 border-brand-500 dark:border-[var(--color-neon-blue)] text-brand-700 dark:text-[var(--color-neon-blue)]" 
+                              ? "bg-indigo-50 dark:bg-indigo-900/20 border-indigo-500 dark:border-[var(--color-neon-blue)] text-indigo-700 dark:text-[var(--color-neon-blue)]" 
                               : "bg-white dark:bg-zinc-900 border-slate-200 dark:border-white/10 text-slate-600 dark:text-zinc-400 hover:border-slate-300 dark:hover:border-white/20"
                           )}
                         >
@@ -175,10 +175,10 @@ export function AgentFactory() {
               transition={{ delay: index * 0.1 }}
               className="group relative h-full"
             >
-              {/* Animated Glow Backdrop */}
+              {/* Item 01: Animated Glow Backdrop (SOLDADO) */}
               <div className={cn(
                 "absolute -inset-0.5 rounded-2xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200",
-                agent.status === 'online' ? "bg-gradient-to-r from-[var(--color-neon-green)] to-[var(--color-neon-blue)]" : "bg-gradient-to-r from-slate-400 to-slate-500 dark:from-zinc-600 dark:to-zinc-700"
+                agent.status === 'online' ? "bg-gradient-to-r from-emerald-400 to-cyan-500" : "bg-gradient-to-r from-slate-400 to-slate-500"
               )} />
               
               <div className="relative h-full bg-white dark:bg-zinc-900 rounded-2xl p-6 flex flex-col border border-slate-200 dark:border-white/10">
@@ -190,7 +190,7 @@ export function AgentFactory() {
                       </div>
                       <span className={cn(
                         "absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white dark:border-zinc-900 shadow-sm",
-                        agent.status === "online" ? "bg-green-500 dark:bg-[var(--color-neon-green)] shadow-[0_0_10px_var(--color-neon-green)]" : "bg-slate-400 dark:bg-zinc-500"
+                        agent.status === "online" ? "bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.6)]" : "bg-slate-400"
                       )} />
                     </div>
                     <div>
@@ -213,7 +213,7 @@ export function AgentFactory() {
                     <p className="text-xs text-slate-500 dark:text-zinc-400 mb-2">Skills Ativas</p>
                     <div className="flex flex-wrap gap-2">
                       {agent.skills.map(skill => (
-                        <span key={skill} className="px-2 py-1 bg-brand-50 dark:bg-brand-900/20 text-brand-700 dark:text-brand-300 text-xs font-medium rounded-md border border-brand-200 dark:border-brand-800/30">
+                        <span key={skill} className="px-2 py-1 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 text-xs font-medium rounded-md border border-indigo-200 dark:border-indigo-800/30">
                           {skill}
                         </span>
                       ))}
@@ -231,7 +231,7 @@ export function AgentFactory() {
                     "px-4 py-2.5 rounded-xl text-sm font-medium border transition-colors",
                     agent.status === "online" 
                       ? "border-red-200 text-red-600 hover:bg-red-50 dark:border-red-900/30 dark:text-red-400 dark:hover:bg-red-900/20" 
-                      : "border-green-200 text-green-600 hover:bg-green-50 dark:border-green-900/30 dark:text-[var(--color-neon-green)] dark:hover:bg-green-900/20"
+                      : "border-green-200 text-green-600 hover:bg-green-50 dark:border-green-900/30 dark:text-green-400 dark:hover:bg-green-900/20"
                   )}>
                     {agent.status === "online" ? "Desativar" : "Ativar"}
                   </button>

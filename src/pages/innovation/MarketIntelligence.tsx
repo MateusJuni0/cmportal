@@ -16,8 +16,8 @@ export function MarketIntelligence() {
   return (
     <div className="max-w-7xl mx-auto h-full flex flex-col gap-6 pb-12">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight mb-2 flex items-center gap-3">
-          <LineChart className="w-8 h-8 text-purple-500 dark:text-[var(--color-neon-purple)]" />
+        <h1 className="text-3xl font-bold tracking-tight mb-2 flex items-center gap-3 text-slate-900 dark:text-white">
+          <LineChart className="w-8 h-8 text-indigo-500" />
           Market Intelligence Hub
         </h1>
         <p className="text-slate-500 dark:text-zinc-400 max-w-2xl">
@@ -53,16 +53,16 @@ export function MarketIntelligence() {
         })}
       </div>
 
-      <div className="flex-1 min-h-0 relative rounded-3xl overflow-hidden glass-card p-6">
+      <div className="flex-1 min-h-[400px] relative rounded-3xl overflow-hidden glass-card p-6 border border-slate-200 dark:border-white/10 bg-white/40 dark:bg-zinc-900/40 backdrop-blur-xl">
         <AnimatePresence mode="wait">
           {activeTab === "churn" && (
             <motion.div key="churn" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-full flex flex-col gap-6">
               <div className="flex justify-between items-center">
-                <h2 className="text-xl font-semibold flex items-center gap-2">
-                  <Activity className="w-5 h-5 text-red-500" />
+                <h2 className="text-xl font-semibold flex items-center gap-2 text-slate-900 dark:text-white">
+                  <Activity className="w-5 h-5 text-rose-500" />
                   Radar de Risco de Churn (IA)
                 </h2>
-                <div className="text-sm px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full font-medium border border-red-200 dark:border-red-900/50">
+                <div className="text-sm px-3 py-1 bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 rounded-full font-medium border border-rose-200 dark:border-rose-900/50">
                   3 Clientes em Zona Crítica
                 </div>
               </div>
@@ -72,14 +72,14 @@ export function MarketIntelligence() {
                   { name: "Nexus SaaS", risk: 74, reason: "Uso estagnado de features chave. NPS caiu.", action: "Disparar fluxo de reengajamento." },
                   { name: "Global Finance", risk: 65, reason: "Ticket de suporte sem resposta > 48h.", action: "Escalar para Customer Success humano." },
                 ].map((client, i) => (
-                  <div key={i} className="bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-white/5 p-5 rounded-2xl flex flex-col gap-4">
+                  <div key={i} className="bg-white dark:bg-zinc-900/50 border border-slate-200 dark:border-white/10 p-5 rounded-2xl flex flex-col gap-4 shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex justify-between items-start">
-                      <h3 className="font-bold">{client.name}</h3>
-                      <span className="text-red-500 font-mono text-sm font-bold bg-red-50 dark:bg-red-950/50 px-2 py-1 rounded">Risco: {client.risk}%</span>
+                      <h3 className="font-bold text-slate-900 dark:text-white">{client.name}</h3>
+                      <span className="text-rose-500 font-mono text-xs font-bold bg-rose-50 dark:bg-rose-950/50 px-2 py-1 rounded">Risco: {client.risk}%</span>
                     </div>
                     <div>
-                      <p className="text-xs text-slate-500 mb-1">Motivo Detectado pela IA:</p>
-                      <p className="text-sm dark:text-zinc-300">{client.reason}</p>
+                      <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Motivo Detectado</p>
+                      <p className="text-sm text-slate-700 dark:text-zinc-300">{client.reason}</p>
                     </div>
                     <button className="mt-auto w-full py-2 bg-slate-900 dark:bg-white text-white dark:text-black rounded-xl text-sm font-medium hover:bg-slate-800 dark:hover:bg-zinc-200 transition-colors">
                       Executar Ação Preventiva
@@ -91,23 +91,23 @@ export function MarketIntelligence() {
           )}
 
           {activeTab === "heatmap" && (
-            <motion.div key="heatmap" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-full flex flex-col items-center justify-center relative">
+            <motion.div key="heatmap" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-full flex flex-col items-center justify-center relative min-h-[400px]">
               <div className="absolute top-0 left-0">
-                <h2 className="text-xl font-semibold flex items-center gap-2">
-                  <Map className="w-5 h-5 text-blue-500" />
+                <h2 className="text-xl font-semibold flex items-center gap-2 text-slate-900 dark:text-white">
+                  <Map className="w-5 h-5 text-indigo-500" />
                   Mapa de Calor 3D - Prospecção
                 </h2>
                 <p className="text-sm text-slate-500 mt-1">Concentre seus agentes onde a demanda está fervendo.</p>
               </div>
-              <div className="w-[500px] h-[500px] rounded-full border-4 border-dashed border-blue-500/20 dark:border-[var(--color-neon-blue)]/20 flex items-center justify-center relative animate-[spin_60s_linear_infinite]">
-                <div className="absolute w-[400px] h-[400px] rounded-full border border-blue-500/30 dark:border-[var(--color-neon-blue)]/30" />
-                <div className="absolute w-[300px] h-[300px] rounded-full border border-blue-500/40 dark:border-[var(--color-neon-blue)]/40" />
-                <Globe className="w-24 h-24 text-blue-500 dark:text-[var(--color-neon-blue)] opacity-50" />
+              <div className="w-64 h-64 rounded-full border-4 border-dashed border-indigo-500/20 dark:border-indigo-500/20 flex items-center justify-center relative animate-[spin_60s_linear_infinite]">
+                <div className="absolute w-48 h-48 rounded-full border border-indigo-500/30" />
+                <div className="absolute w-32 h-32 rounded-full border border-indigo-500/40" />
+                <Globe className="w-16 h-16 text-indigo-500 opacity-50" />
                 
                 {/* Hotspots */}
-                <div className="absolute top-1/4 left-1/4 w-8 h-8 bg-red-500/50 rounded-full blur-md animate-pulse" />
-                <div className="absolute top-3/4 right-1/4 w-12 h-12 bg-yellow-500/50 rounded-full blur-md animate-pulse delay-150" />
-                <div className="absolute bottom-1/4 left-1/3 w-6 h-6 bg-red-500/50 rounded-full blur-sm animate-pulse delay-300" />
+                <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-rose-500/50 rounded-full blur-sm animate-pulse" />
+                <div className="absolute top-3/4 right-1/4 w-6 h-6 bg-amber-500/50 rounded-full blur-sm animate-pulse delay-150" />
+                <div className="absolute bottom-1/4 left-1/3 w-3 h-3 bg-rose-500/50 rounded-full blur-xs animate-pulse delay-300" />
               </div>
             </motion.div>
           )}
@@ -115,40 +115,54 @@ export function MarketIntelligence() {
           {activeTab === "matrix" && (
             <motion.div key="matrix" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-full flex flex-col gap-6">
               <div>
-                <h2 className="text-xl font-semibold flex items-center gap-2">
+                <h2 className="text-xl font-semibold flex items-center gap-2 text-slate-900 dark:text-white">
                   <ShieldAlert className="w-5 h-5 text-orange-500" />
                   Matriz Scraper de Concorrentes
                 </h2>
-                <p className="text-sm text-slate-500 mt-1">IA monitorando mudanças de preço e features nas páginas rivais em tempo real.</p>
+                <p className="text-sm text-slate-500 mt-1">IA monitorando mudanças de preço e features rivais em tempo real.</p>
               </div>
-              <div className="bg-slate-50 dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-white/10 overflow-hidden">
+              <div className="bg-white/50 dark:bg-black/20 rounded-xl border border-slate-200 dark:border-white/10 overflow-hidden">
                 <table className="w-full text-left text-sm">
-                  <thead className="bg-slate-100 dark:bg-black/20">
+                  <thead className="bg-slate-100 dark:bg-black/40">
                     <tr>
                       <th className="p-4 font-semibold text-slate-700 dark:text-zinc-300">Concorrente</th>
-                      <th className="p-4 font-semibold text-slate-700 dark:text-zinc-300">Última Mudança (24h)</th>
-                      <th className="p-4 font-semibold text-slate-700 dark:text-zinc-300">Plano Pro</th>
-                      <th className="p-4 font-semibold text-slate-700 dark:text-zinc-300">Ação Sugerida da IA</th>
+                      <th className="p-4 font-semibold text-slate-700 dark:text-zinc-300">Última Mudança</th>
+                      <th className="p-4 font-semibold text-slate-700 dark:text-zinc-300">Preço Atual</th>
+                      <th className="p-4 font-semibold text-slate-700 dark:text-zinc-300">Diferencial Crítico</th>
+                      <th className="p-4 font-semibold text-slate-700 dark:text-zinc-300">Ação IA</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200 dark:divide-white/5">
                     <tr>
-                      <td className="p-4 font-medium">Alpha CRM</td>
-                      <td className="p-4 text-orange-500 font-medium">Nova feature de IA anunciada</td>
-                      <td className="p-4">$199/m</td>
+                      <td className="p-4 font-medium text-slate-900 dark:text-white">Alpha CRM</td>
+                      <td className="p-4 text-orange-500 font-medium">Nova feature IA</td>
+                      <td className="p-4 text-slate-600 dark:text-zinc-400">$199/m</td>
+                      <td className="p-4 text-xs">Foco em Enterprise</td>
                       <td className="p-4">
-                        <button className="px-3 py-1 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-white/10 rounded-lg hover:bg-slate-50 dark:hover:bg-zinc-700 transition-colors">
-                          Ajustar Discurso SDR
+                        <button className="px-3 py-1 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-white/10 rounded-lg text-xs hover:bg-slate-50 transition-colors">
+                          Ajustar Pitch
                         </button>
                       </td>
                     </tr>
                     <tr>
-                      <td className="p-4 font-medium">SalesBot Inc</td>
-                      <td className="p-4 text-green-500 font-medium">Preço do plano base subiu 15%</td>
-                      <td className="p-4">$250/m (+15%)</td>
+                      <td className="p-4 font-medium text-slate-900 dark:text-white">SalesBot Inc</td>
+                      <td className="p-4 text-emerald-500 font-medium">Preço subiu 15%</td>
+                      <td className="p-4 text-slate-600 dark:text-zinc-400">$250/m</td>
+                      <td className="p-4 text-xs">Chatbots simples</td>
                       <td className="p-4">
-                        <button className="px-3 py-1 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-white/10 rounded-lg hover:bg-slate-50 dark:hover:bg-zinc-700 transition-colors">
-                          Lançar Campanha Desconto
+                        <button className="px-3 py-1 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-white/10 rounded-lg text-xs hover:bg-slate-50 transition-colors">
+                          Campanha Desconto
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="p-4 font-medium text-slate-900 dark:text-white">Omega Outbound</td>
+                      <td className="p-4 text-slate-400 font-medium">Sem alterações</td>
+                      <td className="p-4 text-slate-600 dark:text-zinc-400">$150/m</td>
+                      <td className="p-4 text-xs">Sem automação de voz</td>
+                      <td className="p-4">
+                        <button className="px-3 py-1 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-white/10 rounded-lg text-xs hover:bg-slate-50 transition-colors">
+                          Destacar Voz IA
                         </button>
                       </td>
                     </tr>
@@ -161,29 +175,30 @@ export function MarketIntelligence() {
           {activeTab === "social" && (
             <motion.div key="social" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-full flex flex-col gap-6">
               <div>
-                <h2 className="text-xl font-semibold flex items-center gap-2">
+                <h2 className="text-xl font-semibold flex items-center gap-2 text-slate-900 dark:text-white">
                   <MessageSquare className="w-5 h-5 text-indigo-500" />
                   Dark Social Listening Matrix
                 </h2>
-                <p className="text-sm text-slate-500 mt-1">Intercepte intenções de compra ocultas em comunidades do Discord, Slack e Fóruns privados.</p>
+                <p className="text-sm text-slate-500 mt-1">Intercepte intenções ocultas em comunidades privadas.</p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
-                  { source: "Slack: RevOps Community", content: "Alguém conhece uma alternativa ao Salesforce que tenha IA nativa?", intent: "Alta", time: "Há 5 min" },
-                  { source: "Discord: SaaS Founders", content: "Nosso SDR não tá batendo a meta. Ferramentas de automação de outbound recomendadas?", intent: "Muito Alta", time: "Há 12 min" },
-                  { source: "Reddit: r/sales", content: "Essas ferramentas de cold email tão todas iguais. Precisamos de personalização de vídeo.", intent: "Média", time: "Há 1 hora" },
-                  { source: "Telegram: Growth Hackers", content: "Churn de 10% esse mês. Socorro.", intent: "Média", time: "Há 3 horas" },
+                  { source: "Slack: RevOps Community", content: "Alguém conhece uma alternativa ao Salesforce que tenha IA nativa?", intent: "Alta", time: "Há 5 min", post: "Vimos o post no canal #alternatives" },
+                  { source: "Discord: SaaS Founders", content: "Nosso SDR não tá batendo a meta. Ferramentas de outbound?", intent: "Muito Alta", time: "Há 12 min", post: "Mensagem direta no canal #growth" },
+                  { source: "Reddit: r/sales", content: "Essas ferramentas de cold email tão todas iguais. Precisamos de personalização.", intent: "Média", time: "Há 1 hora", post: "Thread sobre automação" },
+                  { source: "Telegram: Growth Hackers", content: "Churn de 10% esse mês. Socorro.", intent: "Alta", time: "Há 3 horas", post: "Mensagem no grupo VIP" },
                 ].map((item, i) => (
-                  <div key={i} className="p-4 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-white/10 rounded-xl relative overflow-hidden group">
-                    <div className="absolute top-0 right-0 p-2 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-[var(--color-neon-purple)] text-[10px] font-bold uppercase tracking-wider rounded-bl-xl border-l border-b border-indigo-200 dark:border-indigo-800/30">
-                      Intenção: {item.intent}
+                  <div key={i} className="p-4 bg-white dark:bg-zinc-900/50 border border-slate-200 dark:border-white/10 rounded-xl relative group hover:border-indigo-500/50 transition-colors">
+                    <div className="absolute top-0 right-0 p-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[8px] font-bold uppercase tracking-wider rounded-bl-lg border-l border-b border-indigo-100">
+                      INTENÇÃO: {item.intent}
                     </div>
-                    <p className="text-xs text-slate-400 mb-2 font-mono flex items-center gap-2">
+                    <p className="text-[10px] text-slate-400 mb-2 font-mono flex items-center gap-2">
                       <Eye className="w-3 h-3" /> {item.source} • {item.time}
                     </p>
-                    <p className="text-sm font-medium dark:text-zinc-200 mb-4">"{item.content}"</p>
-                    <button className="text-xs font-semibold px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black rounded-lg w-fit hover:scale-105 transition-transform">
-                      Engajar Silenciosamente
+                    <p className="text-sm font-medium text-slate-800 dark:text-zinc-200 mb-2">"{item.content}"</p>
+                    <p className="text-[10px] text-indigo-500/70 mb-4 italic">{item.post}</p>
+                    <button className="text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-all hover:scale-105">
+                      Engajar com Agente ALFA
                     </button>
                   </div>
                 ))}
