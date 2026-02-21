@@ -26,6 +26,12 @@ import { AiTraining } from "@/pages/ai-training/AITrainingPage";
 import { SceneCustomizer } from "@/pages/settings/3d-customizer/ThreeDPage";
 import { GitSyncTool } from "@/pages/settings/git-sync/GitSyncPage";
 
+// Data Management
+import { LeadsPage } from "@/pages/data-management/LeadsPage";
+import { ClientsPage } from "@/pages/data-management/ClientsPage";
+import { FinancialPage } from "@/pages/data-management/FinancialPage";
+import { WhatsAppPage } from "@/pages/data-management/WhatsAppPage";
+
 export default function App() {
   return (
     <Router>
@@ -35,6 +41,13 @@ export default function App() {
         <Route path="/dashboard" element={<AppLayout><Dashboard /></AppLayout>} />
         <Route path="/agents/factory" element={<AppLayout><AgentFactory /></AppLayout>} />
         <Route path="/agents/logs" element={<AppLayout><LiveLogTerminalPage /></AppLayout>} />
+        
+        {/* Data Management */}
+        <Route path="/data/leads" element={<AppLayout><LeadsPage /></AppLayout>} />
+        <Route path="/data/clients" element={<AppLayout><ClientsPage /></AppLayout>} />
+        <Route path="/data/financial" element={<AppLayout><FinancialPage /></AppLayout>} />
+        <Route path="/data/whatsapp" element={<AppLayout><WhatsAppPage /></AppLayout>} />
+
         <Route path="/innovation/warfare" element={<AppLayout><AgentWarfare /></AppLayout>} />
         <Route path="/innovation/growth" element={<AppLayout><GrowthEngines /></AppLayout>} />
         <Route path="/innovation/market" element={<AppLayout><MarketIntelligence /></AppLayout>} />

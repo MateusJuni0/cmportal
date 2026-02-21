@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Bot, Home, Settings, Zap, Users, Terminal, Image as ImageIcon, LayoutTemplate, Box, GitCommit, Brain } from "lucide-react";
+import { Bot, Home, Settings, Zap, Users, Terminal, Image as ImageIcon, LayoutTemplate, Box, GitCommit, Brain, Target, DollarSign, MessageSquare } from "lucide-react";
 import { cn } from "../../utils/cn";
 import { motion } from "framer-motion";
 
@@ -7,6 +7,13 @@ const menuItems = [
   { name: "Dashboard", path: "/dashboard", icon: Home },
   { name: "Agent Factory", path: "/agents/factory", icon: Bot },
   { name: "Live Logs", path: "/agents/logs", icon: Terminal },
+];
+
+const dataItems = [
+  { name: "Leads Sniper", path: "/data/leads", icon: Target },
+  { name: "Clients", path: "/data/clients", icon: Users },
+  { name: "Financial", path: "/data/financial", icon: DollarSign },
+  { name: "WhatsApp", path: "/data/whatsapp", icon: MessageSquare },
 ];
 
 const innovationItems = [
@@ -83,6 +90,11 @@ export function Sidebar() {
         </div>
 
         <div>
+          <p className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest px-3 mb-2">Data & CRM</p>
+          <div className="space-y-1">{dataItems.map(renderLink)}</div>
+        </div>
+
+        <div>
           <p className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest px-3 mb-2">Innovation</p>
           <div className="space-y-1">{innovationItems.map(renderLink)}</div>
         </div>
@@ -108,7 +120,7 @@ export function Sidebar() {
           <span className="text-xs font-semibold text-zinc-300">Status</span>
           <div className="flex items-center gap-2 text-[10px] font-mono text-zinc-500">
             <span className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)] animate-pulse" />
-            V5.3 ONLINE
+            V8.1 ELITE ONLINE
           </div>
         </div>
       </div>

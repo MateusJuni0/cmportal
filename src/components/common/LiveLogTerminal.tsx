@@ -1,137 +1,117 @@
-import { useState, useEffect, useRef } from "react";
-import { Terminal as TerminalIcon, Play, Pause, AlertCircle, CheckCircle2, Info, ChevronRight } from "lucide-react";
-import { cn } from "@/utils/cn";
+import { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { LogEntry } from '../../types';
+import { cn } from '../../utils/cn';
 
-type LogLevel = "info" | "success" | "warning" | "error" | "agent-thought";
-
-interface LogEntry {
-  id: string;
-  timestamp: string;
-  level: LogLevel;
-  agentName: string;
-  message: string;
+interface LiveLogTerminalProps {
+  logs: LogEntry[];
+  className?: string;
 }
 
-const MOCK_LOGS: Omit<LogEntry, "id" | "timestamp">[] = [
-  { level: "info", agentName: "System", message: "Inicializando Sovereign Sales Engine v2.0..." },
-  { level: "success", agentName: "System", message: "Conexão com banco de dados estabelecida." },
-  { level: "info", agentName: "Alpha", message: "Iniciando rotina matinal de prospecção." },
-  { level: "agent-thought", agentName: "Alpha", message: "Analisando 50 perfis do LinkedIn da lista 'SaaS Founders'..." },
-  { level: "warning", agentName: "Alpha", message: "API do LinkedIn rate limit atingido. Aguardando 60s." },
-  { level: "success", agentName: "Bravo", message: "Email follow-up enviado para cliente@empresa.com" },
-  { level: "agent-thought", agentName: "Bravo", message: "Lead abriu o email anterior 3 vezes. Aumentando score de intenção para 85/100." },
-  { level: "info", agentName: "Alpha", message: "Retomando análise de perfis." },
-  { level: "success", agentName: "Alpha", message: "Conexão solicitada com CEO da TechCorp." },
-  { level: "error", agentName: "System", message: "Falha ao sincronizar com CRM HubSpot. Tentando novamente..." },
-  { level: "success", agentName: "System", message: "Sincronização CRM restabelecida com sucesso." },
-];
-
-export function LiveLogTerminal() {
-  const [logs, setLogs] = useState<LogEntry[]>([]);
-  const [isPaused, setIsPaused] = useState(false);
-  const bottomRef = useRef<HTMLDivElement>(null);
-  const logIndexRef = useRef(0);
+export function LiveLogTerminal({ logs, className }: LiveLogTerminalProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [autoScroll, setAutoScroll] = useState(true);
 
   useEffect(() => {
-    if (isPaused) return;
-
-    const interval = setInterval(() => {
-      const mockLog = MOCK_LOGS[logIndexRef.current % MOCK_LOGS.length];
-      
-      const newLog: LogEntry = {
-        id: Math.random().toString(36).substr(2, 9),
-        timestamp: new Date().toLocaleTimeString('pt-BR', { hour12: false }) + '.' + new Date().getMilliseconds().toString().padStart(3, '0'),
-        ...mockLog
-      };
-
-      setLogs((prev) => [...prev.slice(-100), newLog]); // Keep only last 100 logs
-      logIndexRef.current += 1;
-    }, Math.random() * 2000 + 500); // Random delay between 0.5s and 2.5s
-
-    return () => clearInterval(interval);
-  }, [isPaused]);
-
-  useEffect(() => {
-    // Auto-scroll to bottom
-    if (bottomRef.current && !isPaused) {
-      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+    if (autoScroll && scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [logs, isPaused]);
+  }, [logs, autoScroll]);
 
-  const getLogColor = (level: LogLevel) => {
+  const getLevelColor = (level: LogEntry['level']) => {
     switch (level) {
-      case "info": return "text-blue-400";
-      case "success": return "text-green-400 dark:text-[var(--color-neon-green)]";
-      case "warning": return "text-yellow-400";
-      case "error": return "text-red-400 dark:text-red-500";
-      case "agent-thought": return "text-purple-400 dark:text-[var(--color-neon-purple)] italic";
-      default: return "text-slate-300";
+      case 'info':
+        return 'text-cyan-400';
+      case 'success':
+        return 'text-green-400';
+      case 'warning':
+        return 'text-yellow-400';
+      case 'error':
+        return 'text-red-400';
+      default:
+        return 'text-slate-400';
     }
   };
 
-  const getLogIcon = (level: LogLevel) => {
+  const getLevelBg = (level: LogEntry['level']) => {
     switch (level) {
-      case "info": return <Info className="w-3.5 h-3.5" />;
-      case "success": return <CheckCircle2 className="w-3.5 h-3.5" />;
-      case "warning": return <AlertCircle className="w-3.5 h-3.5" />;
-      case "error": return <AlertCircle className="w-3.5 h-3.5" />;
-      case "agent-thought": return <ChevronRight className="w-3.5 h-3.5" />;
-      default: return null;
+      case 'info':
+        return 'bg-cyan-400/5 border-cyan-400/10';
+      case 'success':
+        return 'bg-green-400/5 border-green-400/10';
+      case 'warning':
+        return 'bg-yellow-400/5 border-yellow-400/10';
+      case 'error':
+        return 'bg-red-400/5 border-red-400/10';
+      default:
+        return 'bg-slate-400/5 border-slate-400/10';
     }
   };
 
   return (
-    <div className="flex flex-col h-full rounded-2xl overflow-hidden border border-black/10 dark:border-white/10 shadow-2xl bg-[#0d1117] font-mono">
-      {/* Terminal Header */}
-      <div className="flex items-center justify-between px-4 py-3 bg-[#161b22] border-b border-white/5">
-        <div className="flex items-center gap-3">
-          <TerminalIcon className="w-4 h-4 text-slate-400" />
-          <span className="text-sm font-semibold text-slate-200 tracking-wider">SOVEREIGN_LIVE_LOGS</span>
+    <div className={cn('relative overflow-hidden flex flex-col', className)}>
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-2 bg-black/40 border-b border-white/10 backdrop-blur-md">
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1.5">
+            <div className="w-2.5 h-2.5 rounded-full bg-red-500/50 shadow-[0_0_8px_rgba(239,68,68,0.3)]" />
+            <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50 shadow-[0_0_8px_rgba(234,179,8,0.3)]" />
+            <div className="w-2.5 h-2.5 rounded-full bg-green-500/50 shadow-[0_0_8px_rgba(34,197,94,0.3)]" />
+          </div>
+          <span className="ml-3 text-[10px] uppercase tracking-widest font-bold text-slate-400">
+            System Intelligence Stream
+          </span>
         </div>
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <span className="relative flex h-2 w-2">
-              <span className={cn("animate-ping absolute inline-flex h-full w-full rounded-full opacity-75", !isPaused ? "bg-green-400" : "hidden")}></span>
-              <span className={cn("relative inline-flex rounded-full h-2 w-2", !isPaused ? "bg-green-500" : "bg-slate-500")}></span>
-            </span>
-            <span className="text-xs text-slate-400 uppercase">{isPaused ? "Pausado" : "Gravando"}</span>
-          </div>
-          <button
-            onClick={() => setIsPaused(!isPaused)}
-            className="p-1.5 hover:bg-white/10 rounded-md text-slate-400 hover:text-white transition-colors"
-          >
-            {isPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
-          </button>
+          <span className="text-[10px] font-mono text-slate-500">
+            {logs.length} ENTRIES
+          </span>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <span className="text-[10px] text-slate-400">SYNC</span>
+            <input
+              type="checkbox"
+              checked={autoScroll}
+              onChange={(e) => setAutoScroll(e.target.checked)}
+              className="w-3 h-3 bg-black border-white/10 rounded"
+            />
+          </label>
         </div>
       </div>
 
-      {/* Terminal Body */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-2 text-xs md:text-sm">
-        {logs.length === 0 ? (
-          <div className="text-slate-500 animate-pulse">Aguardando eventos do sistema...</div>
-        ) : (
-          logs.map((log) => (
-            <div key={log.id} className="flex items-start gap-3 group hover:bg-white/5 p-1 rounded transition-colors">
-              <span className="text-slate-500 whitespace-nowrap opacity-50 group-hover:opacity-100 transition-opacity">
-                [{log.timestamp}]
-              </span>
-              <div className="flex items-center gap-1.5 whitespace-nowrap w-24">
-                <span className={cn(getLogColor(log.level))}>{getLogIcon(log.level)}</span>
-                <span className={cn(
-                  "font-bold",
-                  log.agentName === "System" ? "text-slate-300" : "text-brand-400"
-                )}>
-                  {log.agentName}
+      {/* Terminal Content */}
+      <div
+        ref={scrollRef}
+        className="flex-1 overflow-y-auto bg-black/20 p-4 font-mono text-xs scrollbar-thin scrollbar-thumb-white/5"
+      >
+        <AnimatePresence mode="popLayout">
+          {logs.map((log) => (
+            <motion.div
+              key={log.id}
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={cn(
+                'mb-2 p-2 rounded border transition-colors',
+                getLevelBg(log.level)
+              )}
+            >
+              <div className="flex items-start gap-3">
+                <span className="text-[10px] text-slate-600 shrink-0 pt-0.5">
+                  {new Date(log.timestamp).toLocaleTimeString('pt-PT')}
                 </span>
+                <span className={cn('uppercase text-[10px] font-bold shrink-0 pt-0.5', getLevelColor(log.level))}>
+                  {log.level}
+                </span>
+                <span className="text-slate-300 leading-relaxed break-words">{log.message}</span>
               </div>
-              <span className="text-slate-500 shrink-0">::</span>
-              <span className={cn("flex-1 break-words", getLogColor(log.level))}>
-                {log.message}
-              </span>
-            </div>
-          ))
+            </motion.div>
+          ))}
+        </AnimatePresence>
+
+        {logs.length === 0 && (
+          <div className="h-full flex items-center justify-center text-slate-600">
+            <p className="text-xs tracking-widest animate-pulse">AWAITING SYSTEM LOGS...</p>
+          </div>
         )}
-        <div ref={bottomRef} className="h-4" />
       </div>
     </div>
   );
