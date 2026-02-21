@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sidebar } from "./Sidebar";
@@ -7,6 +7,7 @@ import { GlobalSearch } from "@/components/common/GlobalSearch";
 
 export function AppLayout({ children }: { children: ReactNode }) {
   const location = useLocation();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Ignorar layout para página de login (auth)
   if (location.pathname === "/auth") {
@@ -23,12 +24,12 @@ export function AppLayout({ children }: { children: ReactNode }) {
       <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[var(--color-neon-purple)]/10 blur-[120px] pointer-events-none z-0" />
       <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[var(--color-neon-blue)]/10 blur-[120px] pointer-events-none z-0" />
 
-      <Sidebar />
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       <main className="flex-1 flex flex-col relative z-10 overflow-hidden">
-        <Header />
+        <Header onOpenSidebar={() => setIsSidebarOpen(true)} />
         
-        <div className="flex-1 overflow-y-auto p-8 relative">
+        <div className="flex-1 overflow-y-auto p-4 md:p-8 relative">
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}
@@ -46,3 +47,4 @@ export function AppLayout({ children }: { children: ReactNode }) {
     </div>
   );
 }
+
