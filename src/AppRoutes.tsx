@@ -11,7 +11,6 @@ export default function AppRoutes() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/agents" element={<AgentFactoryPage />} />
         <Route path="/leads" element={<LeadsPage />} />
-        {/* Adicionaremos as outras rotas conforme a necessidade de integração */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
