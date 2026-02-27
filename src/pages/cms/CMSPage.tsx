@@ -3,7 +3,7 @@ import { UploadCloud, Save, Globe, Type, Image as ImageIcon, LayoutTemplate, Loa
 import { cn } from "@/utils/cn";
 import { motion } from "framer-motion";
 import { trpc } from "@/lib/trpc";
-import { sonner } from "sonner"; // Para notificações bonitas
+import { toast } from "sonner"; // Corrigido de sonner para toast
 
 export function VisualSiteEditor() {
   const [activeTab, setActiveTab] = useState<"text" | "images">("text");
@@ -14,7 +14,7 @@ export function VisualSiteEditor() {
   const publishMutation = trpc.cms.create.useMutation({
     onSuccess: () => {
       // @ts-ignore
-      sonner.success("Site atualizado com sucesso na VPS!");
+      toast.success("Site atualizado com sucesso na VPS!");
     }
   });
 
