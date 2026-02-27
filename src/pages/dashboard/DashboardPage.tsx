@@ -1,8 +1,48 @@
 import { GlassmorphismCard } from "@/components/common/GlassmorphismCard";
 import { NeumorphismButton } from "@/components/common/NeumorphismButton";
 import { LineChart, Users, Zap, Bot, ArrowUpRight } from "lucide-react";
+import { trpc } from "@/lib/trpc";
 
 export function Dashboard() {
+  // Chamada real ao motor tRPC na VPS
+  const { data, isLoading } = trpc.dashboard.getStats.useQuery();
+
+  // Função para formatar moeda
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR' }).format(value);
+  };
+
+  const stats = [
+    { 
+      title: "Agentes Ativos", 
+      value: isLoading ? "..." : data?.activeAgents.toString() || "0", 
+      icon: Bot, 
+      color: "text-[var(--color-neon-blue)]", 
+      trend: "+2 ativos" 
+    },
+    { 
+      title: "Leads Gerados", 
+      value: isLoading ? "..." : data?.totalLeads.toLocaleString() || "0", 
+      icon: Users, 
+      color: "text-[var(--color-neon-purple)]", 
+      trend: "+15% mês" 
+    },
+    { 
+      title: "Taxa de Conversão", 
+      value: "8.4%", // Estático por enquanto até mapearmos no backend
+      icon: LineChart, 
+      color: "text-[var(--color-neon-green)]", 
+      trend: "+1.2% base" 
+    },
+    { 
+      title: "Receita (Revenue)", 
+      value: isLoading ? "..." : formatCurrency(data?.totalRevenue || 0), 
+      icon: Zap, 
+      color: "text-amber-500", 
+      trend: "Direto da VPS" 
+    },
+  ];
+
   return (
     <div className="max-w-7xl mx-auto flex flex-col gap-8 pb-12 h-full">
       <div className="flex justify-between items-end">
@@ -16,15 +56,10 @@ export function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {[
-          { title: "Agentes Ativos", value: "12", icon: Bot, color: "text-[var(--color-neon-blue)]", trend: "+2 ativos" },
-          { title: "Leads Gerados", value: "2,450", icon: Users, color: "text-[var(--color-neon-purple)]", trend: "+15% mês" },
-          { title: "Taxa de Conversão", value: "8.4%", icon: LineChart, color: "text-[var(--color-neon-green)]", trend: "+1.2% base" },
-          { title: "Ações Autônomas", value: "14,032", icon: Zap, color: "text-amber-500", trend: "+4k ações" },
-        ].map((stat, i) => {
+        {stats.map((stat, i) => {
           const Icon = stat.icon;
           return (
-            <GlassmorphismCard key={i} className="flex flex-col gap-4 relative overflow-hidden group">
+            <GlassmorphismCard key={i} className={`flex flex-col gap-4 relative overflow-hidden group ${isLoading ? 'animate-pulse' : ''}`}>
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="flex justify-between items-center relative z-10">
                 <span className="text-sm font-medium text-zinc-400">{stat.title}</span>
