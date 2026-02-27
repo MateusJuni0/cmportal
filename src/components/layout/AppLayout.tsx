@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { useLocation, Outlet } from "react-router-dom";
+import { ReactNode, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
+import { GlobalSearch } from "@/components/common/GlobalSearch";
 
-export function AppLayout() {
+export function AppLayout({ children }: { children: ReactNode }) {
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -12,7 +13,7 @@ export function AppLayout() {
   if (location.pathname === "/auth") {
     return (
       <div className="min-h-screen bg-[#0A0A0A] text-white font-sans antialiased selection:bg-[var(--color-neon-blue)]/30 dark">
-        <Outlet />
+        {children}
       </div>
     );
   }
@@ -38,7 +39,7 @@ export function AppLayout() {
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className="h-full"
             >
-              <Outlet />
+              {children}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -46,3 +47,4 @@ export function AppLayout() {
     </div>
   );
 }
+
