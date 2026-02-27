@@ -1,12 +1,22 @@
-import { useState, useRef } from "react";
-import { UploadCloud, Save, Globe, Type, Image as ImageIcon, LayoutTemplate } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { UploadCloud, Save, Globe, Type, Image as ImageIcon, LayoutTemplate, Loader2 } from "lucide-react";
 import { cn } from "@/utils/cn";
 import { motion } from "framer-motion";
+import { trpc } from "@/lib/trpc";
+import { sonner } from "sonner"; // Para notificações bonitas
 
 export function VisualSiteEditor() {
   const [activeTab, setActiveTab] = useState<"text" | "images">("text");
-  const [isPublishing, setIsPublishing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Queries e Mutations do tRPC
+  const { data: remoteContent, isLoading: isFetching } = trpc.cms.list.useQuery();
+  const publishMutation = trpc.cms.create.useMutation({
+    onSuccess: () => {
+      // @ts-ignore
+      sonner.success("Site atualizado com sucesso na VPS!");
+    }
+  });
 
   const [siteContent, setSiteContent] = useState({
     heroTitle: "Sovereign Sales Engine",
@@ -18,19 +28,49 @@ export function VisualSiteEditor() {
     "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop"
   ]);
 
-  const handlePublish = () => {
-    setIsPublishing(true);
-    setTimeout(() => {
-      setIsPublishing(false);
-    }, 2000);
+  // Sincronizar dados vindos da VPS ao carregar
+  useEffect(() => {
+    if (remoteContent && remoteContent.length > 0) {
+      const latest = remoteContent[0]; // Pegamos a versão mais recente
+      try {
+        const parsed = JSON.parse(latest.content || "{}");
+        setSiteContent(parsed.text || siteContent);
+        setImages(parsed.images || images);
+      } catch (e) {
+        console.error("Erro ao carregar conteúdo:", e);
+      }
+    }
+  }, [remoteContent]);
+
+  const handlePublish = async () => {
+    const fullData = {
+      text: siteContent,
+      images: images
+    };
+
+    publishMutation.mutate({
+      title: "Main Landing Page",
+      slug: "home",
+      content: JSON.stringify(fullData),
+      contentType: "page",
+      published: true
+    });
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
+      // Em produção aqui integraríamos com S3/Cloudinary. 
+      // Por agora simulamos o URL mas salvamos a referência.
       const url = URL.createObjectURL(e.target.files[0]);
       setImages([url, ...images]);
     }
   };
+
+  if (isFetching) return (
+    <div className="flex h-full items-center justify-center">
+      <Loader2 className="w-8 h-8 animate-spin text-brand-500" />
+    </div>
+  );
 
   return (
     <div className="max-w-6xl mx-auto h-full flex flex-col gap-8 pb-12">
@@ -41,20 +81,23 @@ export function VisualSiteEditor() {
             Visual Site Editor
           </h1>
           <p className="text-slate-500 dark:text-zinc-400">
-            Gerencie o conteúdo do site principal cmtecnologia.pt sem abrir o VS Code.
+            Gerencie o conteúdo do site principal cmtecnologia.pt em tempo real.
           </p>
         </div>
         <div className="flex gap-3">
-          <button className="px-4 py-2 bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 rounded-xl text-sm font-medium transition-colors flex items-center gap-2">
+          <button 
+            onClick={handlePublish}
+            className="px-4 py-2 bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 rounded-xl text-sm font-medium transition-colors flex items-center gap-2"
+          >
             <Save className="w-4 h-4" /> Salvar Rascunho
           </button>
           <button
             onClick={handlePublish}
-            disabled={isPublishing}
+            disabled={publishMutation.isPending}
             className="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-sm font-medium transition-colors shadow-[0_0_15px_var(--color-neon-blue)] flex items-center gap-2 disabled:opacity-50"
           >
-            <Globe className="w-4 h-4" />
-            {isPublishing ? "Publicando..." : "Publicar Alterações"}
+            {publishMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Globe className="w-4 h-4" />}
+            {publishMutation.isPending ? "Publicando..." : "Publicar Alterações"}
           </button>
         </div>
       </div>
@@ -132,7 +175,10 @@ export function VisualSiteEditor() {
                   <div key={idx} className="relative aspect-video rounded-xl overflow-hidden group border border-black/10 dark:border-white/10">
                     <img src={img} alt="Uploaded" className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
-                      <button className="text-xs font-medium text-white px-3 py-1.5 bg-red-500/80 rounded-lg hover:bg-red-500">
+                      <button 
+                        onClick={() => setImages(images.filter((_, i) => i !== idx))}
+                        className="text-xs font-medium text-white px-3 py-1.5 bg-red-500/80 rounded-lg hover:bg-red-500"
+                      >
                         Remover
                       </button>
                     </div>
@@ -150,11 +196,10 @@ export function VisualSiteEditor() {
             <div className="w-3 h-3 rounded-full bg-yellow-400" />
             <div className="w-3 h-3 rounded-full bg-green-400" />
             <div className="ml-4 px-2 py-0.5 bg-white dark:bg-zinc-800 rounded text-[10px] text-slate-500 font-mono">
-              cmtecnologia.pt (Preview)
+              cmtecnologia.pt (Preview Real-Time)
             </div>
           </div>
           <div className="flex-1 bg-white dark:bg-[#0a0a0a] p-8 flex flex-col items-center justify-center text-center relative overflow-hidden">
-            {/* Fake 3D / abstract bg for preview */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-brand-500/20 dark:bg-[var(--color-neon-blue)]/10 blur-[80px] rounded-full pointer-events-none" />
             
             <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-4 relative z-10">
