@@ -5,7 +5,11 @@ import { trpc } from "@/lib/trpc";
 
 export function Dashboard() {
   // Chamada real ao motor tRPC na VPS
-  const { data, isLoading } = trpc.dashboard.getStats.useQuery();
+  const { data, isLoading, error } = trpc.dashboard.getStats.useQuery();
+
+  if (error) {
+    console.error("Erro tRPC:", error);
+  }
 
   // Função para formatar moeda
   const formatCurrency = (value: number) => {

@@ -3,7 +3,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
 import { trpc } from './lib/trpc';
 import SuperJSON from 'superjson';
-import AppRoutes from './AppRoutes'; // Vou criar este arquivo para organizar as rotas
+import { BrowserRouter } from 'react-router-dom';
+import AppRoutes from './AppRoutes';
 
 export default function App() {
   const [queryClient] = useState(() => new QueryClient());
@@ -21,7 +22,9 @@ export default function App() {
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <AppRoutes />
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
       </QueryClientProvider>
     </trpc.Provider>
   );
