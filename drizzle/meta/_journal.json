@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1771891074654,
+      "tag": "0000_yielding_lockjaw",
+      "breakpoints": true
+    }
+  ]
+}
