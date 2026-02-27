@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Search, Target, TrendingUp, Users } from 'lucide-react';
 import { Card, CardContent } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
@@ -7,6 +7,8 @@ import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/Select';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../../components/ui/Table';
 import { useAppStore } from '../../store';
+import { trpc } from '../../lib/trpc';
+import { Lead } from '../../types';
 
 const sourceColors: Record<string, string> = {
   instagram: 'bg-pink-500/20 text-pink-400',
@@ -43,20 +45,34 @@ function getScoreColor(score: number): 'success' | 'warning' | 'destructive' | '
 export function LeadsPage() {
   const { filteredLeads = [], leadFilters, setLeadFilters } = useAppStore();
   
-  const totalLeads = filteredLeads.length;
+  // Sincronização com o Backend via tRPC
+  const { data: remoteLeads, isLoading } = trpc.leads.list.useQuery();
+
+  useEffect(() => {
+    if (remoteLeads) {
+      // Aqui poderíamos atualizar o store global se quiséssemos persistência local,
+      // mas para o teste, vamos apenas usar os dados se existirem.
+      // useAppStore.getState().setLeads(remoteLeads as Lead[]);
+    }
+  }, [remoteLeads]);
+
+  // Se tivermos dados remotos, eles ganham prioridade sobre os mocks do store
+  const displayLeads = remoteLeads ? (remoteLeads as unknown as Lead[]) : filteredLeads;
+
+  const totalLeads = displayLeads.length;
   const avgScore = totalLeads > 0 
-    ? Math.round(filteredLeads.reduce((acc, lead) => acc + (lead.score || 0), 0) / totalLeads) 
+    ? Math.round(displayLeads.reduce((acc, lead) => acc + (lead.score || 0), 0) / totalLeads) 
     : 0;
-  const highIntentLeads = filteredLeads.filter(l => (l.score || 0) >= 70).length;
+  const highIntentLeads = displayLeads.filter(l => (l.score || 0) >= 70).length;
   
   return (
-    <div className="space-y-6 animate-in fade-in duration-500">
+    <div className={`space-y-6 animate-in fade-in duration-500 ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}>
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-white flex items-center gap-3">
             <Target className="w-7 h-7 text-[#22d3ee]" />
-            Leads Sniper
+            Leads Sniper {isLoading && <span className="text-xs text-cyan-500 animate-pulse">(Sincronizando...)</span>}
           </h1>
           <p className="text-[#94a3b8] mt-1">Gerencie e priorize seus leads por intenção de compra</p>
         </div>
@@ -154,8 +170,8 @@ export function LeadsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredLeads
-                .sort((a, b) => b.score - a.score)
+              {displayLeads
+                .sort((a, b) => (b.score || 0) - (a.score || 0))
                 .map((lead) => (
                 <TableRow key={lead.id} className="border-white/5 hover:bg-white/[0.02] transition-colors">
                   <TableCell>
@@ -166,8 +182,8 @@ export function LeadsPage() {
                   </TableCell>
                   <TableCell className="text-[#cbd5e1]">{lead.company}</TableCell>
                   <TableCell>
-                    <Badge variant={getScoreColor(lead.score)}>
-                      {lead.score}/100
+                    <Badge variant={getScoreColor(lead.score || 0)}>
+                      {lead.score || 0}/100
                     </Badge>
                   </TableCell>
                   <TableCell>
