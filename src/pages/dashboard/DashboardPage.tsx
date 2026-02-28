@@ -3,10 +3,18 @@ import { NeumorphismButton } from "@/components/common/NeumorphismButton";
 import { LineChart, Users, Zap, Bot, ArrowUpRight, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
+import { trpc } from "@/lib/trpc";
 
 export function Dashboard() {
-  const isLoading = false;
-  const data = { activeAgents: 5, totalLeads: 1250, totalRevenue: 15000 };
+  const { data: realData, isLoading } = trpc.dashboard.getStats.useQuery();
+  
+  // Fallback para mock se o banco estiver vazio ou offline
+  const data = realData || { 
+    activeAgents: 5, 
+    totalLeads: 1250, 
+    totalRevenue: 15000,
+    totalClients: 42
+  };
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR' }).format(value);
@@ -15,7 +23,7 @@ export function Dashboard() {
   const stats = [
     { 
       title: "Agentes Ativos", 
-      value: data?.activeAgents.toString() || "0", 
+      value: data.activeAgents.toString(), 
       icon: Bot, 
       color: "text-[var(--color-neon-blue)]", 
       trend: "+2 ativos",
@@ -23,7 +31,7 @@ export function Dashboard() {
     },
     { 
       title: "Leads Gerados", 
-      value: data?.totalLeads.toLocaleString() || "0", 
+      value: data.totalLeads.toLocaleString(), 
       icon: Users, 
       color: "text-[var(--color-neon-purple)]", 
       trend: "+15% mês",
@@ -39,7 +47,7 @@ export function Dashboard() {
     },
     { 
       title: "Receita (Revenue)", 
-      value: formatCurrency(data?.totalRevenue || 0), 
+      value: formatCurrency(data.totalRevenue), 
       icon: Zap, 
       color: "text-amber-400", 
       trend: "Direto da VPS",

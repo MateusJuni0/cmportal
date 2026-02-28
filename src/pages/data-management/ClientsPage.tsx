@@ -3,18 +3,19 @@ import { Users, Search, Plus, Edit, Trash2, X, Briefcase, TrendingUp, ShieldChec
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/utils/cn';
 import { GlassmorphismCard } from '@/components/common/GlassmorphismCard';
+import { trpc } from '@/lib/trpc';
 
 // Tipagem local para estabilidade
 interface LocalClient {
-  id: string;
+  id: string | number;
   name: string;
-  company: string;
-  email: string;
-  phone: string;
+  company: string | null;
+  email: string | null;
+  phone: string | null;
   status: 'active' | 'trial' | 'inactive' | 'churned';
   plan: 'starter' | 'professional' | 'enterprise';
-  monthlyValue: number;
-  startDate: string;
+  monthlyValue: number | string;
+  startDate: string | Date;
 }
 
 const mockClients: LocalClient[] = [
