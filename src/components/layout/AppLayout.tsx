@@ -29,7 +29,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
       <main className="flex-1 flex flex-col relative z-10 overflow-hidden">
         <Header onOpenSidebar={() => setIsSidebarOpen(true)} />
         
-        <div className="flex-1 overflow-y-auto p-4 md:p-8 relative">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-8 relative scroll-smooth focus:outline-none touch-pan-y" style={{ WebkitOverflowScrolling: 'touch' }}>
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}

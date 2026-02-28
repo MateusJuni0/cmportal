@@ -1,19 +1,12 @@
 import { GlassmorphismCard } from "@/components/common/GlassmorphismCard";
 import { NeumorphismButton } from "@/components/common/NeumorphismButton";
-import { LineChart, Users, Zap, Bot, ArrowUpRight } from "lucide-react";
-// import { trpc } from "@/lib/trpc";
+import { LineChart, Users, Zap, Bot, ArrowUpRight, TrendingUp } from "lucide-react";
+import { motion } from "framer-motion";
 
 export function Dashboard() {
-  // Chamada real ao motor tRPC na VPS
-  // const { data, isLoading, error } = trpc.dashboard.getStats.useQuery();
   const isLoading = false;
   const data = { activeAgents: 5, totalLeads: 1250, totalRevenue: 15000 };
 
-  // if (error) {
-  //   console.error("Erro tRPC:", error);
-  // }
-
-  // Função para formatar moeda
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR' }).format(value);
   };
@@ -21,81 +14,166 @@ export function Dashboard() {
   const stats = [
     { 
       title: "Agentes Ativos", 
-      value: isLoading ? "..." : data?.activeAgents.toString() || "0", 
+      value: data?.activeAgents.toString() || "0", 
       icon: Bot, 
       color: "text-[var(--color-neon-blue)]", 
-      trend: "+2 ativos" 
+      trend: "+2 ativos",
+      glow: "shadow-[0_0_20px_rgba(0,243,255,0.2)]"
     },
     { 
       title: "Leads Gerados", 
-      value: isLoading ? "..." : data?.totalLeads.toLocaleString() || "0", 
+      value: data?.totalLeads.toLocaleString() || "0", 
       icon: Users, 
       color: "text-[var(--color-neon-purple)]", 
-      trend: "+15% mês" 
+      trend: "+15% mês",
+      glow: "shadow-[0_0_20px_rgba(157,0,255,0.2)]"
     },
     { 
       title: "Taxa de Conversão", 
-      value: "8.4%", // Estático por enquanto até mapearmos no backend
-      icon: LineChart, 
+      value: "8.4%", 
+      icon: TrendingUp, 
       color: "text-[var(--color-neon-green)]", 
-      trend: "+1.2% base" 
+      trend: "+1.2% base",
+      glow: "shadow-[0_0_20px_rgba(57,255,20,0.2)]"
     },
     { 
       title: "Receita (Revenue)", 
-      value: isLoading ? "..." : formatCurrency(data?.totalRevenue || 0), 
+      value: formatCurrency(data?.totalRevenue || 0), 
       icon: Zap, 
-      color: "text-amber-500", 
-      trend: "Direto da VPS" 
+      color: "text-amber-400", 
+      trend: "Direto da VPS",
+      glow: "shadow-[0_0_20px_rgba(251,191,36,0.2)]"
     },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
+  };
+
   return (
-    <div className="max-w-7xl mx-auto flex flex-col gap-6 md:gap-8 pb-12 h-full">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-white mb-1 md:mb-2">Dashboard Central</h1>
-          <p className="text-xs md:text-sm text-zinc-400">
-            Visão geral da sua operação autônoma de vendas.
+    <motion.div 
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
+      className="max-w-7xl mx-auto flex flex-col gap-8 md:gap-12 pb-24"
+    >
+      {/* Welcome Header */}
+      <motion.div variants={itemVariants} className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 px-2 md:px-0">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2 text-[var(--color-neon-blue)] font-black text-[10px] uppercase tracking-[0.3em]">
+            <span className="w-8 h-[1px] bg-[var(--color-neon-blue)]" />
+            System Operational
+          </div>
+          <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-white">
+            Dashboard <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-neon-blue)] to-[var(--color-neon-purple)]">Elite</span>
+          </h1>
+          <p className="text-sm md:text-base text-zinc-500 font-medium">
+            Monitorização em tempo real do seu ecossistema de vendas soberano.
           </p>
         </div>
-        <NeumorphismButton className="text-[10px] md:text-sm py-2 px-4 h-auto w-full sm:w-auto">Gerar Relatório Analítico</NeumorphismButton>
-      </div>
+        <NeumorphismButton className="w-full md:w-auto px-8 py-4 bg-white/5 border border-white/10 rounded-2xl font-bold text-sm text-[var(--color-neon-blue)] hover:shadow-[0_0_20px_rgba(0,243,255,0.2)] transition-all">
+          Extrair Intelligence Report
+        </NeumorphismButton>
+      </motion.div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 px-2 md:px-0">
         {stats.map((stat, i) => {
           const Icon = stat.icon;
           return (
-            <GlassmorphismCard key={i} className={`flex flex-col gap-4 relative overflow-hidden group ${isLoading ? 'animate-pulse' : ''}`}>
-              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="flex justify-between items-center relative z-10">
-                <span className="text-[10px] md:text-sm font-medium text-zinc-400">{stat.title}</span>
-                <div className="p-1.5 md:p-2 bg-[#1A1A1A] rounded-lg border border-white/5">
-                   <Icon className={`w-3 h-3 md:w-4 md:h-4 ${stat.color} drop-shadow-[0_0_5px_currentColor]`} />
+            <motion.div key={i} variants={itemVariants}>
+              <GlassmorphismCard className={cn(
+                "flex flex-col gap-6 p-6 md:p-8 relative overflow-hidden group transition-all hover:scale-[1.02]",
+                stat.glow
+              )}>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-white/10 transition-colors" />
+                <div className="flex justify-between items-center relative z-10">
+                  <div className="p-3 bg-black/40 rounded-2xl border border-white/10">
+                     <Icon className={cn("w-5 h-5 md:w-6 md:h-6", stat.color, "drop-shadow-[0_0_10px_currentColor]")} />
+                  </div>
+                  <div className="text-[10px] font-black text-[var(--color-neon-green)] flex items-center gap-1 bg-[var(--color-neon-green)]/10 px-2 py-1 rounded-full border border-[var(--color-neon-green)]/20">
+                     <ArrowUpRight className="w-3 h-3" />
+                     {stat.trend}
+                  </div>
                 </div>
-              </div>
-              <div className="relative z-10">
-                 <div className="text-xl md:text-3xl font-bold text-white mb-1">{stat.value}</div>
-                 <div className="text-[9px] md:text-[10px] font-medium text-[var(--color-neon-green)] flex items-center gap-1">
-                   <ArrowUpRight className="w-3 h-3" />
-                   {stat.trend}
-                 </div>
-              </div>
-            </GlassmorphismCard>
+                <div className="space-y-1 relative z-10">
+                   <div className="text-sm font-bold text-zinc-500 uppercase tracking-widest">{stat.title}</div>
+                   <div className="text-3xl md:text-4xl font-black text-white tracking-tighter">{stat.value}</div>
+                </div>
+              </GlassmorphismCard>
+            </motion.div>
           )
         })}
       </div>
 
-      {/* Placeholder for future charts or activities */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 min-h-[300px]">
-        <GlassmorphismCard className="lg:col-span-2 flex flex-col justify-center items-center text-zinc-500 border-dashed border-2 border-white/10 bg-transparent shadow-none p-8">
-          <LineChart className="w-8 h-8 md:w-12 md:h-12 mb-4 opacity-20" />
-          <span className="text-xs md:text-sm">Gráfico Principal de MRR (Fase 2)</span>
-        </GlassmorphismCard>
-        <GlassmorphismCard className="flex flex-col justify-center items-center text-zinc-500 border-dashed border-2 border-white/10 bg-transparent shadow-none p-8">
-          <Zap className="w-8 h-8 md:w-12 md:h-12 mb-4 opacity-20" />
-          <span className="text-xs md:text-sm">Feed de Atividade em Tempo Real</span>
-        </GlassmorphismCard>
+      {/* Main Analysis Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 px-2 md:px-0">
+        <motion.div variants={itemVariants} className="lg:col-span-8">
+          <GlassmorphismCard className="h-[400px] flex flex-col p-8 border border-white/5 bg-gradient-to-br from-white/[0.02] to-transparent">
+            <div className="flex justify-between items-center mb-8">
+              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                <LineChart className="w-5 h-5 text-[var(--color-neon-blue)]" />
+                Performance de Conversão
+              </h3>
+              <div className="flex gap-2">
+                {['24H', '7D', '30D'].map(t => (
+                  <button key={t} className="px-3 py-1 text-[10px] font-black text-zinc-500 hover:text-white border border-white/5 rounded-md transition-colors">{t}</button>
+                ))}
+              </div>
+            </div>
+            <div className="flex-1 flex flex-col justify-center items-center text-zinc-600 border-2 border-dashed border-white/5 rounded-3xl">
+              <TrendingUp className="w-12 h-12 mb-4 opacity-10" />
+              <span className="text-xs font-black uppercase tracking-widest opacity-40">Motor Analítico V8.1 em Standby</span>
+            </div>
+          </GlassmorphismCard>
+        </motion.div>
+
+        <motion.div variants={itemVariants} className="lg:col-span-4 space-y-6">
+          <GlassmorphismCard className="p-8 border border-white/5 bg-white/[0.01]">
+            <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+              <Zap className="w-5 h-5 text-amber-400" />
+              Atividade Recente
+            </h3>
+            <div className="space-y-6">
+              {[
+                { label: 'Novo Lead Sniper', time: '2m atrás', color: 'bg-cyan-500' },
+                { label: 'Campanha Ativada', time: '14m atrás', color: 'bg-purple-500' },
+                { label: 'Relatório Gerado', time: '1h atrás', color: 'bg-emerald-500' }
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-4 group">
+                  <div className={cn("w-2 h-2 rounded-full", item.color, "shadow-[0_0_8px_currentColor]")} />
+                  <div className="flex-1">
+                    <div className="text-sm font-bold text-zinc-300 group-hover:text-white transition-colors">{item.label}</div>
+                    <div className="text-[10px] font-medium text-zinc-600 uppercase tracking-tighter">{item.time}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </GlassmorphismCard>
+
+          <GlassmorphismCard className="p-8 bg-gradient-to-br from-[var(--color-neon-blue)]/10 to-transparent border border-[var(--color-neon-blue)]/10">
+            <h4 className="text-sm font-black text-white uppercase tracking-widest mb-2">Protocolo Alpha</h4>
+            <p className="text-xs text-zinc-400 mb-4 font-medium leading-relaxed">Otimização de SDR autônomo está a operar a 98% de eficiência na VPS.</p>
+            <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+              <motion.div 
+                initial={{ width: 0 }}
+                animate={{ width: '98%' }}
+                transition={{ duration: 1, delay: 0.5 }}
+                className="h-full bg-[var(--color-neon-blue)] shadow-[0_0_10px_rgba(0,243,255,0.5)]" 
+              />
+            </div>
+          </GlassmorphismCard>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }
