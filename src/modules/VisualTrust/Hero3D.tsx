@@ -1,6 +1,7 @@
 import React, { useRef, useLayoutEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, Float } from '@react-three/drei';
+import * as THREE from 'three';
 import gsap from 'gsap';
 import { useNavigate } from 'react-router-dom';
 

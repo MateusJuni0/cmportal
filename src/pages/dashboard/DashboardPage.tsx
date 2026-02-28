@@ -2,6 +2,7 @@ import { GlassmorphismCard } from "@/components/common/GlassmorphismCard";
 import { NeumorphismButton } from "@/components/common/NeumorphismButton";
 import { LineChart, Users, Zap, Bot, ArrowUpRight, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
+import { cn } from "@/utils/cn";
 
 export function Dashboard() {
   const isLoading = false;
