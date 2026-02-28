@@ -1,14 +1,29 @@
 import { GlassmorphismCard } from "@/components/common/GlassmorphismCard";
 import { NeumorphismButton } from "@/components/common/NeumorphismButton";
-import { Bot } from "lucide-react";
+import { Bot, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { trpc } from "@/lib/trpc";
+import { toast } from "sonner";
 
 export function AuthPage() {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  
+  const loginMutation = trpc.auth.login.useMutation({
+    onSuccess: () => {
+      toast.success("Acesso autorizado. Bem-vindo ao Sovereign OS.");
+      navigate("/dashboard");
+    },
+    onError: (error) => {
+      toast.error(`Falha na autenticação: ${error.message}`);
+    }
+  });
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate("/dashboard");
+    loginMutation.mutate({ email, password });
   };
 
   return (
@@ -34,6 +49,8 @@ export function AuthPage() {
             <input 
               type="email" 
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="admin@sovereign.com" 
               className="w-full bg-[#1A1A1A] border border-white/5 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[var(--color-neon-blue)] transition-colors shadow-inner placeholder:text-zinc-600"
             />
@@ -43,13 +60,24 @@ export function AuthPage() {
             <input 
               type="password" 
               required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••" 
               className="w-full bg-[#1A1A1A] border border-white/5 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[var(--color-neon-blue)] transition-colors shadow-inner placeholder:text-zinc-600"
             />
           </div>
 
-          <NeumorphismButton type="submit" className="w-full mt-8">
-            Entrar no Sistema
+          <NeumorphismButton 
+            type="submit" 
+            className="w-full mt-8"
+            disabled={loginMutation.isPending}
+          >
+            {loginMutation.isPending ? (
+              <div className="flex items-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Autenticando...
+              </div>
+            ) : "Entrar no Sistema"}
           </NeumorphismButton>
 
           <div className="w-full flex items-center gap-4 my-4">
