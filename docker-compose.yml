@@ -1,0 +1,19 @@
+services:
+  app:
+    build: .
+    container_name: cm-portal-app
+    restart: always
+    ports:
+      - "3001:3000"
+    environment:
+      - DATABASE_URL=mysql://root:&)Xbh?X-JiB,fWZZFa2&@172.17.0.1:3306/cm_portal
+      - PORT=3000
+      - JWT_SECRET=cm_tecnologia_elite_2026
+      - NODE_ENV=production
+      - VITE_API_URL=/api/trpc
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+networks:
+  default:
+    driver: bridge
