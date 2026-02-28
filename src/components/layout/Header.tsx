@@ -1,4 +1,4 @@
-import { Bell, Menu } from "lucide-react";
+import { Bell, Menu, Bot } from "lucide-react";
 import { DeployButton } from "../common/DeployButton";
 import { GlobalSearch } from "../common/GlobalSearch";
 
