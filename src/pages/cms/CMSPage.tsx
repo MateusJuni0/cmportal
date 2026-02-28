@@ -10,7 +10,9 @@ export function VisualSiteEditor() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Queries e Mutations do tRPC
-  const { data: remoteContent, isLoading: isFetching } = trpc.cms.list.useQuery();
+  // const { data: remoteContent, isLoading: isFetching } = trpc.cms.list.useQuery();
+  const isFetching = false;
+  const remoteContent: any[] = [];
   const publishMutation = trpc.cms.create.useMutation({
     onSuccess: () => {
       // @ts-ignore
